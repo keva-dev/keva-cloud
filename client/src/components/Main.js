@@ -69,7 +69,7 @@ function Main() {
         <button onClick={createServer}>Create your Keva instance!</button>
       </React.Fragment>}
       {!loading && health && <React.Fragment>
-        <div>Your Keva server is up!</div>
+        <div>Your Keva instance is up!</div>
         <div>Container ID: {health.container}</div>
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
@@ -77,7 +77,7 @@ function Main() {
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
       </React.Fragment>}
       {created && <React.Fragment>
-        <div style={{ marginTop: '25px' }}><strong>Your Keva server credentials:</strong></div>
+        <div style={{ marginTop: '25px' }}><strong>Your Keva instance credentials:</strong></div>
         <div>Host: redis://128.199.213.116:{created.port}</div>
         <div>Password: {created.pwd}</div>
         <div>Please save this information!</div>
