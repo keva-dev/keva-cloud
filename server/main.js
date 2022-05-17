@@ -110,8 +110,8 @@ async function getKevaInstanceLog(containerId) {
   return rawLog.trim()
 }
 
-async function getStats() {
-  const stats = await executeCommand('sh ./stats.sh')
+async function getStats(containerId) {
+  const stats = await executeCommand(`sh ./stats.sh ${containerId}`)
   const statsTrimmed = stats.trim()
   const listStats = statsTrimmed.split("\n")
   return listStats.map(l => JSON.parse(l))
@@ -183,12 +183,14 @@ app.get('/health', jwtMiddleware, async function (req, res) {
   if (!userObj || !userObj.containerId) {
     return res.status(200).send({})
   }
-  const stats = await getStats()
   if (!userObj.containerId) {
     return res.status(200).send({})
   }
-  const r = stats.find(s => userObj.containerId.startsWith(s.container))
-  return res.send(r)
+  const stats = await getStats(userObj.containerId)
+  if (!stats.length) {
+    return res.status(200).send({})
+  }
+  return res.send(r[0])
 })
 
 app.post('/create', jwtMiddleware, async function (req, res) {
