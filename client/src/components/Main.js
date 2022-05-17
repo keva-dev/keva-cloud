@@ -74,6 +74,9 @@ function Main() {
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
         <div><button onClick={() => loadHealth(true)} style={{ marginTop: '20px' }}>Refresh health</button></div>
+        <div><a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">
+          <button>View logs</button>
+          </a></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
       </React.Fragment>}
       {created && <React.Fragment>

@@ -142,7 +142,7 @@ app.get('/log', async function (req, res) {
   const id = req.query.id
   try {
     const log = await getKevaInstanceLog(id)
-    return res.send(`<pre>${log}</pre>`)
+    return res.send(`<title>Log for container ${id}</title><pre>${log}</pre>`)
   } catch(err) {
     return res.status(400).send(err.message)
   }
