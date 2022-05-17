@@ -34,8 +34,10 @@ function Main() {
     loadHealth()
   }, [])
 
-  function loadHealth() {
-    setLoading(true)
+  function loadHealth(isSkipLoading) {
+    if (!isSkipLoading) {
+      setLoading(true)
+    }
     getHealthApi().then(r => {
       if (r.container) {
         setHealth(r)
@@ -72,6 +74,7 @@ function Main() {
         <div>Container ID: {health.container}</div>
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
+        <div><button onClick={() => loadHealth(true)} style={{ marginTop: '20px' }}>Refresh health</button></div>
         <div><button onClick={deleteServer}>Destroy this server</button></div>
       </React.Fragment>}
       {created && <React.Fragment>
