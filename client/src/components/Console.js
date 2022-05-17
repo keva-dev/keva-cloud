@@ -42,8 +42,8 @@ async function deleteServerApi() {
   return data
 }
 
-async function restartServerApi(id) {
-  const { data } = await service.put(`/restart?id=${id}`)
+async function restartServerApi() {
+  const { data } = await service.put(`/restart`)
   return data
 }
 
@@ -98,8 +98,7 @@ function Console() {
     if (!agree) {
       return
     }
-    const id = health.container
-    await restartServerApi(id)
+    await restartServerApi()
     loadHealth()
   }
 
@@ -119,7 +118,7 @@ function Console() {
       </React.Fragment>}
       {!loading && health && <React.Fragment>
         <div>Your Keva instance is up! (<a href="#" onClick={loadHealth}>refresh state</a>)</div>
-        <div>Instance ID: {health.container} (<a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">view log</a>)</div>
+        <div>Instance ID: {health.container.substring(0, 12)} (<a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">view log</a>)</div>
         <div>CPU Usage: {health.cpu} (1 core)</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
         <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>

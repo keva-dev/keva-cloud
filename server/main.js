@@ -214,9 +214,17 @@ app.delete('/delete', jwtMiddleware, async function (req, res) {
 })
 
 app.put('/restart', jwtMiddleware, async function (req, res) {
-  const id = req.email
+  const who = req.email
+  const userObj = users.find(u => u.email === who)
+  if (!userObj) {
+    return res.status(400).send({ err: 'Cannot find that email' })
+  }
+  if (!userObj.containerId) {
+    return res.status(400).send({ err: 'Cannot find that email container' })
+  }
+  const containerId = userObj.containerId
   try {
-    await restartKevaInstance(id)
+    await restartKevaInstance(containerId)
     return res.send({ message: 'Done'})
   } catch(err) {
     return res.status(400).send({ err: err.message })
