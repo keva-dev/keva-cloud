@@ -9,7 +9,8 @@ function Login() {
     setEmail(e.target.value)
   }
 
-  function onLogin() {
+  function onLogin(e) {
+    e.preventDefault()
     if (!email.trim()) {
       return
     }
