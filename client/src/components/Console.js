@@ -63,10 +63,6 @@ function Console() {
   }
 
   function logout() {
-    const agree = window.confirm('Are you sure you want to logout?')
-    if (!agree) {
-      return
-    }
     localStorage.removeItem('email')
     navigate('/')
   }
@@ -80,14 +76,11 @@ function Console() {
         <button onClick={createServer}>Spawn your Keva instance!</button>
       </React.Fragment>}
       {!loading && health && <React.Fragment>
-        <div>Your Keva instance is up!</div>
-        <div>Instance ID: {health.container}</div>
+        <div>Your Keva instance is up! (<a href="#" onClick={loadHealth}>refresh state</a>)</div>
+        <div>Instance ID: {health.container} (<a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">view log</a>)</div>
         <div>CPU Usage: {health.cpu} (1 core)</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
-        <div><button className="secondary" onClick={loadHealth} style={{ marginTop: '20px' }}>Refresh health</button></div>
-        <div><a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">
-          <button className="secondary">View logs</button>
-          </a></div>
+        <div><button className="secondary" onClick={loadHealth} style={{ marginTop: '20px' }}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
         <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>
       </React.Fragment>}
