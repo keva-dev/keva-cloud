@@ -54,7 +54,7 @@ async function createKevaInstance(email) {
   }
   const port = getPort()
   const pwd = `kevapwd${Math.floor(1000 + Math.random() * 9000)}`
-  const name = `keva-${email.split("@")[0]}{Math.floor(1000 + Math.random() * 9000)}`
+  const name = `keva-${email.split("@")[0]}${Math.floor(1000 + Math.random() * 9000)}`
   const cmd = `docker run --name ${name} -d -p ${port}:6379 kevadev/keva-server --requirepass ${pwd}`
   try {
     const containerId = await executeCommand(cmd)
