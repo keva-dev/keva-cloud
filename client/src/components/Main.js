@@ -68,6 +68,7 @@ function Main() {
         <button onClick={createServer}>Create your Keva server!</button>
       </React.Fragment>}
       {!loading && health && <React.Fragment>
+        <div>Your Keva server is up!</div>
         <div>Container ID: {health.container}</div>
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
