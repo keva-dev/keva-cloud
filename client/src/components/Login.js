@@ -7,11 +7,10 @@ function Login() {
 
   function onLogin({ email }) {
     localStorage.setItem('email', email)
-    navigate('/main')
+    navigate('/console')
   }
 
   function responseGoogle(data) {
-    console.log(data)
     if (data.error) return
     if (!data || !data.profileObj.email || !data.accessToken) return
     onLogin({ email: data.profileObj.email })
@@ -31,7 +30,8 @@ function Login() {
           onFailure={responseGoogle}
         />
       </div>
-      <p className="notice">*Free 1 Keva instance per account with 256MB memory</p>
+      <p className="notice">*Free forever 1 Keva instance per account with 256MB memory</p>
+      <p className="notice">**Upgrade to pro instance (1GB memory) with 5$/month</p>
     </React.Fragment>
   )
 }

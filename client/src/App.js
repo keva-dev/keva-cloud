@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 import Login from './components/Login'
 import NotFound from './components/NotFound'
-import Main from './components/Main'
+import Console from './components/Console'
 
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme)
@@ -64,7 +64,7 @@ function App() {
         <Link to="/"><img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '75px' }}/></Link>
         <Routes>
           <Route path="/" element={<Login/>} />
-          <Route path="/main" element={<Main/>} />
+          <Route path="/console" element={<Console/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
         <button className="toggle-theme secondary" onClick={toggleThemeHandler}>
