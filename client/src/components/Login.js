@@ -10,6 +10,9 @@ function Login() {
   }
 
   function onLogin() {
+    if (!email.trim()) {
+      return
+    }
     localStorage.setItem('email', email.toLowerCase())
     navigate('/main')
   }
@@ -18,10 +21,10 @@ function Login() {
     <React.Fragment>
       <h1>Keva Cloud</h1>
       <p>Start your Keva server in seconds!</p>
-      <div className="login-box">
+      <form className="login-box" onSubmit={onLogin}>
         <input placeholder="Enter your email" value={email} onChange={handleInput}/>
-        <button onClick={onLogin}>Start</button>
-      </div>
+        <button type="submit" onClick={onLogin}>Start</button>
+      </form>
     </React.Fragment>
   )
 }
