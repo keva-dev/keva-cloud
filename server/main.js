@@ -147,7 +147,15 @@ app.get('/log', async function (req, res) {
   }
 })
 
+app.get('/users', async function (req, res) {
+  const id = req.query.id
+  if (id !== process.env.ADMIN) {
+    return res.status(400).send({ message: 'You are not admin' })
+  }
+  return res.send(users)
+})
+
 const port = process.env.PORT || 2222
 app.listen(port, () => {
-  console.log(`Bill server listening at http://localhost:${port}`)
+  console.log(`Keva Cloud server listening at http://localhost:${port}`)
 })
