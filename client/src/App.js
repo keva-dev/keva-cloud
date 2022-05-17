@@ -10,16 +10,40 @@ import Login from './components/Login'
 import NotFound from './components/NotFound'
 import Main from './components/Main'
 
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme)
+}
+
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme')
   if (currentTheme === null) {
-    document.documentElement.setAttribute('data-theme', 'light');
+    setTheme('light')
   } else if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'light');
+    setTheme('light')
   } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    setTheme('dark')
   }
 }
+
+function initTheme() {
+  const theme = localStorage.getItem('theme')
+  if (!theme) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark')
+    } else {
+      setTheme('light')
+    }
+  } else {
+    setTheme(theme)
+  }
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    const newTheme = e.matches ? 'dark' : 'light'
+    setTheme(newTheme)
+  })
+}
+
+initTheme()
 
 function App() {
   return (
