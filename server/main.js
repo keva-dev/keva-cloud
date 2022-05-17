@@ -190,7 +190,7 @@ app.get('/health', jwtMiddleware, async function (req, res) {
   if (!stats.length) {
     return res.status(200).send({})
   }
-  return res.send(r[0])
+  return res.send(stats[0])
 })
 
 app.post('/create', jwtMiddleware, async function (req, res) {
