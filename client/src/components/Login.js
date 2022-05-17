@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (localStorage.getItem('email')) {
+    if (localStorage.getItem('token')) {
       navigate('/console')
     }
   }, [navigate])

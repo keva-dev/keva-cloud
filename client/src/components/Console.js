@@ -4,25 +4,46 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
-axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.getItem('token')}`}
+
+const service = axios.create()
+service.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  }
+)
+
+service.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    localStorage.removeItem('email')
+    localStorage.removeItem('token')
+    window.location.href = '/'
+  }
+  return error
+})
 
 async function getHealthApi() {
-  const { data } = await axios.get(`/health?who=${localStorage.getItem('email')}`)
+  const { data } = await service.get(`/health`)
   return data
 }
 
 async function createServerApi() {
-  const { data } = await axios.post(`/create?who=${localStorage.getItem('email')}`)
+  const { data } = await service.post(`/create`)
   return data
 }
 
 async function deleteServerApi() {
-  const { data } = await axios.delete(`/delete?who=${localStorage.getItem('email')}`)
+  const { data } = await service.delete(`/delete`)
   return data
 }
 
 async function restartServerApi(id) {
-  const { data } = await axios.put(`/restart?id=${id}`)
+  const { data } = await service.put(`/restart?id=${id}`)
   return data
 }
 
@@ -33,7 +54,7 @@ function Console() {
   const [created, setCreated] = useState(null)
 
   useEffect(() => {
-    if (!localStorage.getItem('email')) {
+    if (!localStorage.getItem('token')) {
       navigate('/')
     }
   }, [navigate])
@@ -84,6 +105,7 @@ function Console() {
 
   function logout() {
     localStorage.removeItem('email')
+    localStorage.removeItem('token')
     navigate('/')
   }
 
