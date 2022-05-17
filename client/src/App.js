@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.scss'
 
 import {
@@ -46,6 +47,17 @@ function initTheme() {
 initTheme()
 
 function App() {
+  const [themeState, setThemeState] = useState(localStorage.getItem('theme'))
+
+  function toggleThemeHandler() {
+    if (themeState === 'dark') {
+      setThemeState('light')
+    } else {
+      setThemeState('dark')
+    }
+    toggleTheme()
+  }
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -55,8 +67,8 @@ function App() {
           <Route path="/main" element={<Main/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
-        <button className="toggle-theme secondary" onClick={toggleTheme}>
-          Toggle theme
+        <button className="toggle-theme secondary" onClick={toggleThemeHandler}>
+          Use {themeState === 'dark' ? 'light' : 'dark'} mode
         </button>
       </div>
     </BrowserRouter>

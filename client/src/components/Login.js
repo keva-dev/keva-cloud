@@ -23,11 +23,10 @@ function Login() {
       <p>Spawn your Keva instance in seconds!</p>
       <div className="login-box" onSubmit={onLogin}>
         <GoogleLogin
-          clientId="834798810236-piematcse01o0nt70l67omb17mbqt02m.apps.googleusercontent.com"
+          clientId="834798810236-mo101qd4s238ajssl05n4j4t9i2r4ch5.apps.googleusercontent.com"
           render={renderProps => (
             <button type="button" onClick={renderProps.onClick}>Login with Google account</button>
           )}
-          buttonText="Login with Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
         />
