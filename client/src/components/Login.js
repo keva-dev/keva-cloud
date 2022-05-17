@@ -10,7 +10,7 @@ function Login() {
   }
 
   function onLogin() {
-    localStorage.setItem('email', email)
+    localStorage.setItem('email', email.toLowerCase())
     navigate('/main')
   }
 
