@@ -30,8 +30,8 @@ function Login() {
           onFailure={responseGoogle}
         />
       </div>
-      <p className="notice">*Free forever 1 Keva instance per account with 256MB memory</p>
-      <p className="notice">**Upgrade to pro instance (1GB memory) with 5$/month</p>
+      <p className="notice">*Free forever 1 Keva instance with 256MB memory per account</p>
+      <p className="notice">**Upgrade to pro instance (1GB+ memory) starting 5$/month</p>
     </React.Fragment>
   )
 }
