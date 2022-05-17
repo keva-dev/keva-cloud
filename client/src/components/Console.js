@@ -32,7 +32,7 @@ function Console() {
     if (!localStorage.getItem('email')) {
       navigate('/')
     }
-  })
+  }, [])
 
   useEffect(() => {
     loadHealth()
@@ -89,6 +89,7 @@ function Console() {
           <button className="secondary">View logs</button>
           </a></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
+        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance</div>
       </React.Fragment>}
       {created && <React.Fragment>
         <div>Host: redis://run.keva.dev:{created.port}</div>

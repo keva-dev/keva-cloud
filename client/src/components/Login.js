@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
 
 function Login() {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('email')) {
+      navigate('/console')
+    }
+  }, [])
 
   function onLogin({ email }) {
     localStorage.setItem('email', email)
