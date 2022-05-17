@@ -135,7 +135,7 @@ function Console() {
         <div>Or netcat:</div>
         <div><code>nc run.keva.dev {created.port}</code></div>
       </React.Fragment>}
-      <div style={{ marginTop: '20px' }}>Logged in as {localStorage.getItem('email')}&nbsp;
+      <div style={{ marginTop: '20px' }}>{localStorage.getItem('email')}&nbsp;
       <span style={{ cursor: 'pointer' }} onClick={logout}>(logout?)</span></div>
     </React.Fragment>
   )
