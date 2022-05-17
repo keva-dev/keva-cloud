@@ -64,7 +64,7 @@ function Main() {
     <React.Fragment>
       <h1>Hello {localStorage.getItem('email')}</h1>
       {loading && <div>Fetching your server data...</div>}
-      {!loading && !health && <React.Fragment>
+      {!loading && !created && !health && <React.Fragment>
         <p>You haven't created any Keva instance</p>
         <button onClick={createServer}>Create your Keva instance!</button>
       </React.Fragment>}
@@ -74,14 +74,16 @@ function Main() {
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
         <div><button onClick={() => loadHealth(true)} style={{ marginTop: '20px' }}>Refresh health</button></div>
-        <div><button onClick={deleteServer}>Destroy this instance</button></div>
+        <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
       </React.Fragment>}
       {created && <React.Fragment>
         <div style={{ marginTop: '25px' }}><strong>Your Keva server credentials:</strong></div>
         <div>Host: redis://128.199.213.116:{created.port}</div>
         <div>Password: {created.pwd}</div>
         <div>Please save this information!</div>
-        <div><button onClick={() => { setCreated(null); loadHealth(true); }}>Ok, I've saved it!</button></div>
+        <div><button disabled={loading} onClick={() => { setCreated(null); loadHealth(); }}>Ok, I've saved it!</button></div>
+        <div>Connect by redis-cli:</div>
+        <div><code>redis-cli -h 128.199.213.116 -p {created.port} -a {created.pwd}</code></div>
       </React.Fragment>}
     </React.Fragment>
   )
