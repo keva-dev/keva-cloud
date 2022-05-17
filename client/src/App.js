@@ -55,9 +55,9 @@ function App() {
           <Route path="/main" element={<Main/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
-        <div className="toggle-theme" onClick={toggleTheme}>
+        <button className="toggle-theme secondary" onClick={toggleTheme}>
           Toggle theme
-        </div>
+        </button>
       </div>
     </BrowserRouter>
   )

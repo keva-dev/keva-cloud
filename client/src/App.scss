@@ -27,6 +27,10 @@
     margin: 0;
   }
 
+  p.notice {
+    font-size: 0.8rem;
+  }
+
   button {
     min-width: 200px;
     cursor: pointer;
@@ -36,6 +40,12 @@
     border-radius: 5px;
     background-color: var(--secondary-background);
     color: var(--secondary-text);
+
+    &.secondary {
+      background-color: transparent;
+      color: var(--primary-text);
+      border: 1px solid var(--primary-text);
+    }
   }
 
   .login-box {
@@ -56,13 +66,8 @@
     }
 
     button {
-      border: 0;
       width: 100%;
-      margin: 0;
-      padding: 10px;
-      border-radius: 5px;
-      background-color: var(--secondary-background);
-      color: var(--secondary-text);
+      font-size: 16px;
     }
   }
 
@@ -70,5 +75,6 @@
     margin-top: 20px;
     cursor: pointer;
     font-size: .8rem;
+    min-width: unset;
   }
 }

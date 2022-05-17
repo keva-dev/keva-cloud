@@ -4,7 +4,7 @@ function NotFound() {
   return (
     <React.Fragment>
       <h1>Not Found</h1>
-      <p>Return to home</p>
+      <p>What are you looking here?</p>
     </React.Fragment>
   )
 }
