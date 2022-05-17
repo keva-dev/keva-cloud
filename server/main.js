@@ -83,7 +83,7 @@ async function removeKevaInstance(email) {
 }
 
 async function getKevaInstanceLog(containerId) {
-  const rawLog = await executeCommand(`docker stop ${userObj.containerId}`)
+  const rawLog = await executeCommand(`docker logs ${containerId}`)
   return rawLog.trim()
 }
 
