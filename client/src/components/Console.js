@@ -3,23 +3,26 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
+axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
+axios.defaults.headers.common = {'Authorization': `bearer ${localStorage.getItem('token')}`}
+
 async function getHealthApi() {
-  const { data } = await axios.get(`https://keva-cloud.tuhuynh.com/health?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.get(`/health?who=${localStorage.getItem('email')}`)
   return data
 }
 
 async function createServerApi() {
-  const { data } = await axios.post(`https://keva-cloud.tuhuynh.com/create?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.post(`/create?who=${localStorage.getItem('email')}`)
   return data
 }
 
 async function deleteServerApi() {
-  const { data } = await axios.delete(`https://keva-cloud.tuhuynh.com/delete?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.delete(`/delete?who=${localStorage.getItem('email')}`)
   return data
 }
 
 async function restartServerApi(id) {
-  const { data } = await axios.put(`https://keva-cloud.tuhuynh.com/restart?id=${id}`)
+  const { data } = await axios.put(`/restart?id=${id}`)
   return data
 }
 

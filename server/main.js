@@ -1,6 +1,8 @@
 require("dotenv").config()
 const { exec } = require("child_process")
 const storage = require('node-persist')
+const jwt = require("jsonwebtoken")
+const secret = process.env.JWT_SECRET || "DEFAULT_SECRET";
 
 const users = [
   // {
@@ -8,11 +10,6 @@ const users = [
   //   containerId: null,
   //   port: null,
   // },
-  // {
-  //   email: 'blu@keva.dev',
-  //   containerId: null,
-  //   port: null,
-  // }
 ]
 
 async function init() {
@@ -128,8 +125,59 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/health', async function (req, res) {
-  const who = req.query.who
+const jwtMiddleware = (req, res, next) => {
+  const getToken = req =>
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "Bearer"
+      ? req.headers.authorization.split(" ")[1]
+      : req.query && req.query.token
+      ? req.query.token
+      : null
+
+  const verifyJWT = token => jwt.verify(token, secret)
+
+  try {
+    const token = getToken(req)
+    const payload = verifyJWT(token)
+
+    const { email } = payload
+    req.email = email
+
+    next()
+  } catch (err) {
+    res.status(401)
+    res.send({ message: "Unauthorized", error: err })
+  }
+};
+
+app.post('/login', async function (req, res) {
+  const verifyGoogleOAuth = async t => {
+    const googleURL = "https://www.googleapis.com/userinfo/v2/me"
+    const { data } = await axios.get(googleURL, {
+      headers: { Authorization: `Bearer ${t}`, Accept: "application/json" }
+    })
+    return data
+  }
+  const createJWT = (identify, obj) =>
+    jwt.sign(
+      {
+        ...identify,
+        ...obj
+      },
+      secret,
+      { expiresIn: "24h" }
+    )
+  try {
+    const { email } = await verifyGoogleOAuth(req.body.token);
+    const token = createJWT({ email })
+    return res.send({ token, email })
+  } catch(err) {
+    return res.status(400).send({ err: err.message })
+  }
+})
+
+app.get('/health', jwtMiddleware, async function (req, res) {
+  const who = req.email
   const userObj = users.find(u => u.email === who)
   if (!userObj || !userObj.containerId) {
     return res.status(200).send({})
@@ -142,8 +190,8 @@ app.get('/health', async function (req, res) {
   return res.send(r)
 })
 
-app.post('/create', async function (req, res) {
-  const who = req.query.who
+app.post('/create', jwtMiddleware, async function (req, res) {
+  const who = req.email
   try {
     const result = await createKevaInstance(who)
     return res.send(result)
@@ -152,8 +200,8 @@ app.post('/create', async function (req, res) {
   }
 })
 
-app.delete('/delete', async function (req, res) {
-  const who = req.query.who
+app.delete('/delete', jwtMiddleware, async function (req, res) {
+  const who = req.email
   try {
     await removeKevaInstance(who)
     return res.send({ message: 'Done'})
@@ -162,8 +210,8 @@ app.delete('/delete', async function (req, res) {
   }
 })
 
-app.put('/restart', async function (req, res) {
-  const id = req.query.id
+app.put('/restart', jwtMiddleware, async function (req, res) {
+  const id = req.email
   try {
     await restartKevaInstance(id)
     return res.send({ message: 'Done'})

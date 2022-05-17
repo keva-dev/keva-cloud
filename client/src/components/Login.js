@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
 
 function Login() {
   const navigate = useNavigate()
@@ -11,15 +14,17 @@ function Login() {
     }
   }, [navigate])
 
-  function onLogin({ email }) {
-    localStorage.setItem('email', email)
+  async function onLogin({ token }) {
+    const { data } = await axios.post('/login', { token })
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('email', data.email)
     navigate('/console')
   }
 
   function responseGoogle(data) {
     if (data.error) return
     if (!data || !data.profileObj.email || !data.accessToken) return
-    onLogin({ email: data.profileObj.email })
+    onLogin({ token: data.accessToken })
   }
 
   return (
@@ -36,8 +41,8 @@ function Login() {
           onFailure={responseGoogle}
         />
       </div>
-      <p className="notice">*Free forever 1 Keva instance with 256MB memory per account</p>
-      <p className="notice">**Upgrade to pro instance (1GB+ memory) starting 5$/month</p>
+      <p className="notice">Free forever 1 Keva instance with 256MB memory per account</p>
+      <p className="notice">Upgrade to pro instance (1GB+ memory) starting 5$/month</p>
     </React.Fragment>
   )
 }
