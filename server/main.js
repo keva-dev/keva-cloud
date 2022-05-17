@@ -231,11 +231,19 @@ app.put('/restart', jwtMiddleware, async function (req, res) {
   }
 })
 
-app.get('/log', async function (req, res) {
-  const id = req.query.id
+app.get('/log', jwtMiddleware, async function (req, res) {
+  const who = req.email
+  const userObj = users.find(u => u.email === who)
+  if (!userObj) {
+    return res.status(400).send('Cannot find that email')
+  }
+  if (!userObj.containerId) {
+    return res.status(400).send('Cannot find that email container')
+  }
+  const containerId = userObj.containerId
   try {
-    const log = await getKevaInstanceLog(id)
-    return res.send(`<title>Log for container ${id}</title><pre>${log}</pre>`)
+    const log = await getKevaInstanceLog(containerId)
+    return res.send(`<title>Instance ${id}</title><pre>${log}</pre>`)
   } catch(err) {
     return res.status(400).send(err.message)
   }
