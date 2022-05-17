@@ -4,17 +4,17 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 async function getHealthApi() {
-  const { data } = await axios.get(`https://cloud-api.keva.dev/health?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.get(`https://keva-cloud.tuhuynh.com/health?who=${localStorage.getItem('email')}`)
   return data
 }
 
 async function createServerApi() {
-  const { data } = await axios.post(`https://cloud-api.keva.dev/create?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.post(`https://keva-cloud.tuhuynh.com/create?who=${localStorage.getItem('email')}`)
   return data
 }
 
 async function deleteServerApi() {
-  const { data } = await axios.delete(`https://cloud-api.keva.dev/delete?who=${localStorage.getItem('email')}`)
+  const { data } = await axios.delete(`https://keva-cloud.tuhuynh.com/delete?who=${localStorage.getItem('email')}`)
   return data
 }
 
