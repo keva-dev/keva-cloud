@@ -81,12 +81,12 @@ function Main() {
       </React.Fragment>}
       {created && <React.Fragment>
         <div style={{ marginTop: '25px' }}><strong>Your Keva instance credentials:</strong></div>
-        <div>Host: redis://128.199.213.116:{created.port}</div>
+        <div>Host: redis://run.keva.dev:{created.port}</div>
         <div>Password: {created.pwd}</div>
         <div>Please save this information!</div>
         <div><button disabled={loading} onClick={() => { setCreated(null); loadHealth(); }}>Ok, I've saved it!</button></div>
         <div>Connect by redis-cli:</div>
-        <div><code>redis-cli -h 128.199.213.116 -p {created.port} -a {created.pwd}</code></div>
+        <div><code>redis-cli -h run.keva.dev -p {created.port} -a {created.pwd}</code></div>
       </React.Fragment>}
     </React.Fragment>
   )
