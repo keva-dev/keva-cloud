@@ -243,7 +243,7 @@ app.get('/log', jwtMiddleware, async function (req, res) {
   const containerId = userObj.containerId
   try {
     const log = await getKevaInstanceLog(containerId)
-    return res.send(`<title>Instance ${id}</title><pre>${log}</pre>`)
+    return res.send(`<title>Instance ${containerId}</title><pre>${log}</pre>`)
   } catch(err) {
     return res.status(400).send(err.message)
   }
