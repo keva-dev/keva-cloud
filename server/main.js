@@ -82,6 +82,11 @@ async function removeKevaInstance(email) {
   throw new Error('Cannot find that email')
 }
 
+async function getKevaInstanceLog(containerId) {
+  const rawLog = await executeCommand(`docker stop ${userObj.containerId}`)
+  return rawLog.trim()
+}
+
 async function getStats() {
   const stats = await executeCommand('sh ./stats.sh')
   const statsTrimmed = stats.trim()
@@ -130,6 +135,16 @@ app.delete('/delete', async function (req, res) {
     return res.send({ message: 'Done'})
   } catch(err) {
     return res.status(400).send({ err: err.message })
+  }
+})
+
+app.get('/log', async function (req, res) {
+  const id = req.query.id
+  try {
+    const log = await getKevaInstanceLog(id)
+    return res.send(log)
+  } catch(err) {
+    return res.status(400).send(err.message)
   }
 })
 
