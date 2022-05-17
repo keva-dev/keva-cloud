@@ -1,5 +1,38 @@
 require("dotenv").config()
 const { exec } = require("child_process")
+const storage = require('node-persist')
+
+const users = [
+  // {
+  //   email: 'tu@keva.dev',
+  //   containerId: null,
+  //   port: null,
+  // },
+  // {
+  //   email: 'blu@keva.dev',
+  //   containerId: null,
+  //   port: null,
+  // }
+]
+
+async function init() {
+  await storage.init()
+  const got = await storage.getItem('db')
+  if (got) {
+    const gotObj = JSON.parse(got)
+    users.push(...gotObj)
+  }
+
+  setInterval(async () => {
+    saveDB()
+  }, 1000 * 5);
+}
+
+async function saveDB() {
+  await storage.setItem('db', JSON.stringify(users))
+}
+
+init()
 
 async function executeCommand(cmd) {
   return new Promise((resolve, reject) => {
@@ -25,19 +58,6 @@ function getPort() {
   }
   return val
 }
-
-const users = [
-  // {
-  //   email: 'tu@keva.dev',
-  //   containerId: null,
-  //   port: null,
-  // },
-  // {
-  //   email: 'blu@keva.dev',
-  //   containerId: null,
-  //   port: null,
-  // }
-]
 
 function selectUser(email) {
   const userObj = users.find(u => u.email === email)

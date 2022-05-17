@@ -14,11 +14,12 @@ async function createServerApi() {
 }
 
 async function deleteServerApi() {
-  const agree = window.confirm('Are you sure you want to delete your Keva instance?')
-  if (!agree) {
-    return
-  }
   const { data } = await axios.delete(`https://keva-cloud.tuhuynh.com/delete?who=${localStorage.getItem('email')}`)
+  return data
+}
+
+async function restartServerApi(id) {
+  const { data } = await axios.put(`https://keva-cloud.tuhuynh.com/restart?id=${id}`)
   return data
 }
 
@@ -56,9 +57,25 @@ function Console() {
     setCreated(result)
   }
 
-  async function deleteServer() {
+  async function deleteServer(e) {
+    e.preventDefault()
+    const agree = window.confirm('Are you sure you want to delete your Keva instance?')
+    if (!agree) {
+      return
+    }
     setCreated(null)
     await deleteServerApi()
+    loadHealth()
+  }
+
+  async function restartServer(e) {
+    e.preventDefault()
+    const agree = window.confirm('Are you sure you want to restart your Keva instance?')
+    if (!agree) {
+      return
+    }
+    const id = health.container
+    await restartServerApi(id)
     loadHealth()
   }
 
@@ -80,7 +97,7 @@ function Console() {
         <div>Instance ID: {health.container} (<a href={`https://keva-cloud.tuhuynh.com/log?id=${health.container}`} target="_blank" rel="noreferrer">view log</a>)</div>
         <div>CPU Usage: {health.cpu} (1 core)</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
-        <div><button className="secondary" onClick={loadHealth} style={{ marginTop: '20px' }}>Restart instance</button></div>
+        <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
         <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>
       </React.Fragment>}
