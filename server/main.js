@@ -1,3 +1,4 @@
+require("dotenv").config()
 const { exec } = require("child_process")
 
 async function executeCommand(cmd) {
