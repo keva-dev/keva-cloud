@@ -1,0 +1,71 @@
+:root {
+  --primary-background: #000;
+  --secondary-background: #fff;
+  --primary-text: #fff;
+  --secondary-text: #000;
+}
+
+[data-theme="light"] {
+  --primary-background: #fff;
+  --secondary-background: #000;
+  --primary-text: #000;
+  --secondary-text: #fff;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+
+  h1, p {
+    margin: 0;
+  }
+
+  button {
+    cursor: pointer;
+    border: 0;
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--secondary-background);
+    color: var(--secondary-text);
+  }
+
+  .login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 250px;
+
+    input {
+      width: 90%;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+    }
+
+    button {
+      border: 0;
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: var(--secondary-background);
+      color: var(--secondary-text);
+    }
+  }
+
+  .toggle-theme {
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: .8rem;
+  }
+}
