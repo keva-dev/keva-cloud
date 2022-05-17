@@ -5,7 +5,6 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
 } from 'react-router-dom'
 import Login from './components/Login'
 import NotFound from './components/NotFound'
@@ -61,7 +60,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <Link to="/"><img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '75px' }}/></Link>
+        <a href="https://keva.dev" target="_blank" rel="noreferrer"><img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '75px' }}/></a>
         <Routes>
           <Route path="/" element={<Login/>} />
           <Route path="/console" element={<Console/>} />

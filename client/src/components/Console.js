@@ -32,7 +32,7 @@ function Console() {
     if (!localStorage.getItem('email')) {
       navigate('/')
     }
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     loadHealth()

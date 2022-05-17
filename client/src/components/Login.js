@@ -9,7 +9,7 @@ function Login() {
     if (localStorage.getItem('email')) {
       navigate('/console')
     }
-  }, [])
+  }, [navigate])
 
   function onLogin({ email }) {
     localStorage.setItem('email', email)
