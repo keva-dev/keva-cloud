@@ -81,7 +81,7 @@ function Console() {
       </React.Fragment>}
       {!loading && health && <React.Fragment>
         <div>Your Keva instance is up!</div>
-        <div>Container ID: {health.container}</div>
+        <div>Instance ID: {health.container}</div>
         <div>CPU Usage: {health.cpu} (1 core)</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
         <div><button className="secondary" onClick={loadHealth} style={{ marginTop: '20px' }}>Refresh health</button></div>
@@ -89,7 +89,7 @@ function Console() {
           <button className="secondary">View logs</button>
           </a></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
-        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance</div>
+        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>
       </React.Fragment>}
       {created && <React.Fragment>
         <div>Host: redis://run.keva.dev:{created.port}</div>
