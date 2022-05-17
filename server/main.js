@@ -180,7 +180,7 @@ app.post('/login', async function (req, res) {
 app.get('/health', jwtMiddleware, async function (req, res) {
   const who = req.email
   const userObj = users.find(u => u.email === who)
-  if (!userObj || !userObj.containerId) {
+  if (!userObj) {
     return res.status(200).send({})
   }
   if (!userObj.containerId) {
