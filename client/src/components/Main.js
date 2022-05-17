@@ -63,7 +63,7 @@ function Main() {
   return (
     <React.Fragment>
       <h1>Hello {localStorage.getItem('email')}</h1>
-      {loading && <div>Fetching your server data...</div>}
+      {loading && <div>Fetching your instance data...</div>}
       {!loading && !created && !health && <React.Fragment>
         <p>You haven't created any Keva instance</p>
         <button onClick={createServer}>Create your Keva instance!</button>
