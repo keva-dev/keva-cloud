@@ -52,7 +52,6 @@ function Main() {
   async function createServer() {
     const result = await createServerApi()
     setCreated(result)
-    loadHealth()
   }
 
   async function deleteServer() {
@@ -82,7 +81,7 @@ function Main() {
         <div>Host: redis://128.199.213.116:{created.port}</div>
         <div>Password: {created.pwd}</div>
         <div>Please save this information!</div>
-        <div><button onClick={() => setCreated(null)}>Ok, I've saved it!</button></div>
+        <div><button onClick={() => { setCreated(null); loadHealth(true); }}>Ok, I've saved it!</button></div>
       </React.Fragment>}
     </React.Fragment>
   )
