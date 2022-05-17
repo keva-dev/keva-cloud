@@ -66,8 +66,8 @@ function Main() {
       <h1>Hello {localStorage.getItem('email')}</h1>
       {loading && <div>Fetching your server data...</div>}
       {!loading && !health && <React.Fragment>
-        <p>You haven't created a Keva server</p>
-        <button onClick={createServer}>Create your Keva server!</button>
+        <p>You haven't created any Keva instance</p>
+        <button onClick={createServer}>Create your Keva instance!</button>
       </React.Fragment>}
       {!loading && health && <React.Fragment>
         <div>Your Keva server is up!</div>
@@ -75,14 +75,14 @@ function Main() {
         <div>CPU Usage: {health.cpu}</div>
         <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
         <div><button onClick={() => loadHealth(true)} style={{ marginTop: '20px' }}>Refresh health</button></div>
-        <div><button onClick={deleteServer}>Destroy this server</button></div>
+        <div><button onClick={deleteServer}>Destroy this instance</button></div>
       </React.Fragment>}
       {created && <React.Fragment>
         <div style={{ marginTop: '25px' }}><strong>Your Keva server credentials:</strong></div>
         <div>Host: redis://128.199.213.116:{created.port}</div>
         <div>Password: {created.pwd}</div>
-        <div>Please save those information!</div>
-        <div><button onClick={() => setCreated(null)}>Ok, I've saved!</button></div>
+        <div>Please save this information!</div>
+        <div><button onClick={() => setCreated(null)}>Ok, I've saved it!</button></div>
       </React.Fragment>}
     </React.Fragment>
   )

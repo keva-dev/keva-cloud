@@ -20,7 +20,7 @@ function Login() {
   return (
     <React.Fragment>
       <h1>Keva Cloud</h1>
-      <p>Start your Keva server in seconds!</p>
+      <p>Start your Keva instance in seconds!</p>
       <form className="login-box" onSubmit={onLogin}>
         <input placeholder="Enter your email" value={email} onChange={handleInput}/>
         <button type="submit" onClick={onLogin}>Start</button>
