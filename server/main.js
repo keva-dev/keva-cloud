@@ -2,6 +2,7 @@ require("dotenv").config()
 const { exec } = require("child_process")
 const storage = require('node-persist')
 const jwt = require("jsonwebtoken")
+const axios = require("axios")
 const secret = process.env.JWT_SECRET || "DEFAULT_SECRET";
 
 const users = [
