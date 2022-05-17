@@ -69,6 +69,13 @@ async function removeKevaInstance(userName) {
   throw new Error('Cannot find that userName')
 }
 
+async function getStats() {
+  const stats = await executeCommand('sh ./stats.sh')
+  const statsTrimmed = stats.trim()
+  const listStats = statsTrimmed.split("\n")
+  return listStats.map(l => JSON.parse(l))
+}
+
 async function main() {
   const result = await createKevaInstance('tyler')
   console.log(result)
