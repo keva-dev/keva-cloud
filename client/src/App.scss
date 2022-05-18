@@ -84,6 +84,38 @@
     font-size: .8rem;
     min-width: unset;
   }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+
+    .popup {
+      margin: 70px auto;
+      padding: 20px;
+      border: 1px solid var(--primary-text);
+      background: var(--primary-background);
+      border-radius: 5px;
+      width: calc(90% - 40px);
+      max-width: 600px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--primary-text);
+
+      h2 {
+        margin: 0;
+      }
+
+      code {
+        line-break: anywhere;
+      }
+    }
+  }
 }
 
 .lds-ripple {

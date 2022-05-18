@@ -32,6 +32,11 @@ async function getHealthApi() {
   return data
 }
 
+async function getCredsApi() {
+  const { data } = await service.get(`/creds`)
+  return data
+}
+
 async function createServerApi() {
   const { data } = await service.post(`/create`)
   return data
@@ -51,7 +56,8 @@ function Console() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [health, setHealth] = useState(null)
-  const [created, setCreated] = useState(null)
+  const [creds, setCreds] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -77,8 +83,21 @@ function Console() {
   }
 
   async function createServer() {
-    const result = await createServerApi()
-    setCreated(result)
+    await createServerApi()
+    loadHealth()
+    openConnectModal()
+  }
+
+  async function openConnectModal(e) {
+    if (e) { e.preventDefault() }
+    const data = await getCredsApi()
+    setCreds(data)
+    setIsModalOpen(true)
+  }
+
+  function closeConnectModal(e) {
+    e.preventDefault()
+    setIsModalOpen(false)
   }
 
   async function deleteServer(e) {
@@ -87,7 +106,6 @@ function Console() {
     if (!agree) {
       return
     }
-    setCreated(null)
     await deleteServerApi()
     loadHealth()
   }
@@ -114,7 +132,7 @@ function Console() {
     <React.Fragment>
       <h1>Keva Cloud Console</h1>
       {loading && <div className="lds-ripple"><div></div><div></div></div>}
-      {!loading && !created && !health && <React.Fragment>
+      {!loading && !health && <React.Fragment>
         <p>You haven't spawned any Keva instance</p>
         <button onClick={createServer}>Spawn your Keva instance!</button>
       </React.Fragment>}
@@ -126,22 +144,30 @@ function Console() {
         <div>Network Usage: {health.NetIO}</div>
       </React.Fragment>}
       {health && <React.Fragment>
-        <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>
+        <div><button className="secondary" onClick={openConnectModal} style={{ marginTop: '20px' }}>Connect</button></div>
+        <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
         {!hasTryFlag && <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>}
       </React.Fragment>}
-      {created && <React.Fragment>
-        <div>Host: redis://run.keva.dev:{created.port}</div>
-        <div>Password: {created.pwd}</div>
-        <div>Please save this instance credential!</div>
-        <div><button disabled={loading} onClick={() => { setCreated(null); loadHealth(); }}>Ok, I've saved it!</button></div>
-        <div>Connect by redis-cli:</div>
-        <div><code>redis-cli -h run.keva.dev -p {created.port} -a {created.pwd}</code></div>
-        <div>Or netcat:</div>
-        <div><code>nc run.keva.dev {created.port}</code></div>
-      </React.Fragment>}
       <div style={{ marginTop: '20px' }}>{localStorage.getItem('email')}&nbsp;
       <span style={{ cursor: 'pointer' }} onClick={logout}>(logout?)</span></div>
+
+      {isModalOpen && <div className="popup-overlay">
+        <div className="popup">
+          <h2>Instance's credential</h2>
+          <div>Host: redis://run.keva.dev:{creds.port}</div>
+          <div>Password: {creds.pwd}</div>
+          <h2>Connect to the instance</h2>
+          <div>Via <strong>redis-cli</strong>:</div>
+          <div><code>redis-cli -h run.keva.dev -p {creds.port} -a {creds.pwd}</code></div>
+          <div>Via <strong>netcat</strong>:</div>
+          <div><code>nc run.keva.dev {creds.port}</code></div>
+          <div>Via <strong>REST API</strong>:</div>
+          <div><code>curl https://restapi.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code></div>
+          <div>Via <a href="https://redis.io/docs/clients/" target="_blank" rel="noreferrer" style={{ fontWeight: 'bold' }}>Redis Client</a></div>
+          <div style={{ width: '100%', textAlign: 'right' }}><button onClick={closeConnectModal}>Okay!</button></div>
+        </div>
+      </div>}
     </React.Fragment>
   )
 }
