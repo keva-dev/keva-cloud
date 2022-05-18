@@ -13,7 +13,8 @@
 }
 
 .app {
-  width: 100%;
+  width: calc(100% - 20px);
+  padding: 0 10px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,6 +29,7 @@
   }
 
   p.notice {
+    text-align: center;
     font-size: 0.8rem;
   }
 
