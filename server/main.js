@@ -9,7 +9,7 @@ const users = [
   // {
   //   email: 'tu@keva.dev',
   //   containerId: null,
-  //   port: null,
+  //   port: null, pwd: null,
   // },
 ]
 
@@ -43,7 +43,7 @@ async function executeCommand(cmd) {
         reject(new Error(stderr))
         return
       }
-      resolve(stdout)
+      resolve(stdout.trim())
     })
   })
 }
@@ -77,11 +77,12 @@ async function createKevaInstance(email) {
   const cmd = `docker run --name ${name} -m 256m -d -p ${port}:6379 kevadev/keva-server --requirepass ${pwd}`
   try {
     const containerId = await executeCommand(cmd)
-    userObj.containerId = containerId.trim()
+    userObj.containerId = containerId
     userObj.port = port
+    userObj.pwd = pwd
     return {
       pwd,
-      containerId: containerId.trim(),
+      containerId,
       port,
     }
   } catch(err) {
@@ -96,6 +97,7 @@ async function removeKevaInstance(email) {
     await executeCommand(`docker rm ${userObj.containerId}`)
     userObj.containerId = null
     userObj.port = null
+    userObj.pwd = null
     return
   }
   throw new Error('Cannot find that email')
@@ -175,6 +177,18 @@ app.post('/login', async function (req, res) {
   } catch(err) {
     return res.status(400).send({ err: err.message })
   }
+})
+
+app.get('/creds', jwtMiddleware, async function (req, res) {
+  const who = req.email
+  const userObj = users.find(u => u.email === who)
+  if (!userObj) {
+    return res.status(200).send({})
+  }
+  if (!userObj.containerId) {
+    return res.status(200).send({})
+  }
+  return res.send(userObj)
 })
 
 app.get('/health', jwtMiddleware, async function (req, res) {
