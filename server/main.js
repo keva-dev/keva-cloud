@@ -5,6 +5,18 @@ const jwt = require("jsonwebtoken")
 const axios = require("axios")
 const secret = process.env.JWT_SECRET || "DEFAULT_SECRET";
 
+const createJWT = (identify, obj, expireTime = "24h") =>
+    jwt.sign(
+      {
+        ...identify,
+        ...obj
+      },
+      secret,
+      { expiresIn: expireTime }
+    )
+
+const verifyJWT = token => jwt.verify(token, secret)
+
 const users = [
   // {
   //   email: 'tu@keva.dev',
@@ -80,6 +92,7 @@ async function createKevaInstance(email) {
     userObj.containerId = containerId
     userObj.port = port
     userObj.pwd = pwd
+    userObj.token = createJWT({ email }, null, "8760h")
     return {
       pwd,
       containerId,
@@ -98,6 +111,7 @@ async function removeKevaInstance(email) {
     userObj.containerId = null
     userObj.port = null
     userObj.pwd = null
+    userObj.token = null
     return
   }
   throw new Error('Cannot find that email')
@@ -137,8 +151,6 @@ const jwtMiddleware = (req, res, next) => {
       ? req.query.token
       : null
 
-  const verifyJWT = token => jwt.verify(token, secret)
-
   try {
     const token = getToken(req)
     const payload = verifyJWT(token)
@@ -161,15 +173,6 @@ app.post('/login', async function (req, res) {
     })
     return data
   }
-  const createJWT = (identify, obj) =>
-    jwt.sign(
-      {
-        ...identify,
-        ...obj
-      },
-      secret,
-      { expiresIn: "24h" }
-    )
   try {
     const { email } = await verifyGoogleOAuth(req.body.token);
     const token = createJWT({ email })
