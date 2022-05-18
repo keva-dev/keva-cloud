@@ -66,7 +66,7 @@ function Console() {
   function loadHealth() {
     setLoading(true)
     getHealthApi().then(r => {
-      if (r.container) {
+      if (r.Container) {
         setHealth(r)
       } else {
         setHealth(null)
@@ -118,9 +118,10 @@ function Console() {
       </React.Fragment>}
       {!loading && health && <React.Fragment>
         <div>Your Keva instance is up! (<a href="#!" onClick={loadHealth}>refresh state</a>)</div>
-        <div>Instance ID: {health.container.substring(0, 12)} (<a href={`https://keva-cloud.tuhuynh.com/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
-        <div>CPU Usage: {health.cpu} (1 core)</div>
-        <div>Memory Usage: {health.memory.raw} ({health.memory.percent})</div>
+        <div>Instance ID: {health.ID} (<a href={`https://keva-cloud.tuhuynh.com/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
+        <div>CPU Usage: {health.CPUPerc} (1 core)</div>
+        <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
+        <div>Network Usage: {health.NetIO}</div>
         <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
         <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>
