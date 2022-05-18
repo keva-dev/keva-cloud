@@ -27,6 +27,8 @@ function Login() {
     onLogin({ token: data.accessToken })
   }
 
+  const hasTryFlag = window.location.href.includes("try")
+
   return (
     <React.Fragment>
       <h1>Try Keva Cloud!</h1>
@@ -42,7 +44,7 @@ function Login() {
         />
       </div>
       <p className="notice"><strong>Free forever 1 Keva instance with 256MB memory per account</strong></p>
-      <p className="notice">Upgrade to pro instance (1GB+ memory) starting 5$/month</p>
+      {!hasTryFlag && <p className="notice">Upgrade to pro instance (1GB+ memory) starting 5$/month</p>}
     </React.Fragment>
   )
 }
