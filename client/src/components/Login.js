@@ -5,6 +5,15 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
 
+function init() {
+  const hasTryFlag = window.location.href.includes("try")
+  if (hasTryFlag) {
+    localStorage.setItem('try', true)
+  }
+}
+
+init()
+
 function Login() {
   const navigate = useNavigate()
 
@@ -27,7 +36,7 @@ function Login() {
     onLogin({ token: data.accessToken })
   }
 
-  const hasTryFlag = window.location.href.includes("try")
+  const hasTryFlag = localStorage.getItem('try')
 
   return (
     <React.Fragment>

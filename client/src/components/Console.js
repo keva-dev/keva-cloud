@@ -108,6 +108,8 @@ function Console() {
     navigate('/')
   }
 
+  const hasTryFlag = localStorage.getItem('try')
+
   return (
     <React.Fragment>
       <h1>Keva Cloud Console</h1>
@@ -126,7 +128,7 @@ function Console() {
       {health && <React.Fragment>
         <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
-        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>  
+        {!hasTryFlag && <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>}
       </React.Fragment>}
       {created && <React.Fragment>
         <div>Host: redis://run.keva.dev:{created.port}</div>
