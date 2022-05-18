@@ -122,9 +122,11 @@ function Console() {
         <div>CPU Usage: {health.CPUPerc} (1 core)</div>
         <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
         <div>Network Usage: {health.NetIO}</div>
+      </React.Fragment>}
+      {health && <React.Fragment>
         <div><button className="secondary" onClick={restartServer} style={{ marginTop: '20px' }}>Restart instance</button></div>
         <div><button disabled={loading} onClick={deleteServer}>Destroy this instance</button></div>
-        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>
+        <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>  
       </React.Fragment>}
       {created && <React.Fragment>
         <div>Host: redis://run.keva.dev:{created.port}</div>
