@@ -126,14 +126,16 @@ function Console() {
     navigate('/')
   }
 
-  const hasTryFlag = localStorage.getItem('try')
-
   return (
     <React.Fragment>
       <h1>Cloud Console</h1>
       {!loading && !health && <React.Fragment>
         <p>You haven't spawned any Keva instance</p>
-        <button onClick={createServer}>Spawn your Keva instance!</button>
+        <button onClick={createServer} style={{ fontSize: '16px' }}>
+          Spawn a Keva instance!
+        </button>
+        <p>Version: Keva@latest</p>
+        <p>Region: Singapore</p>
       </React.Fragment>}
       <div className="console">
         {loading && <div className="lds-ripple"><div/><div/></div>}
