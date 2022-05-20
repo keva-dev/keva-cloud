@@ -60,7 +60,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <a href="https://keva.dev" target="_blank" rel="noreferrer"><img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '100px' }}/></a>
+        <a href="https://keva.dev" target="_blank" rel="noreferrer">
+          <img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '100px' }}/>
+        </a>
         <Routes>
           <Route path="/" element={<Login/>} />
           <Route path="/console" element={<Console/>} />
