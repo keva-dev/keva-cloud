@@ -35,19 +35,29 @@ const jwtMiddleware = (req, res, next) => {
   }
 }
 
-app.use(jwtMiddleware, async (req, res, next) => {
-  const args = req.path.split("/").filter(Boolean)
+app.use(jwtMiddleware, async (req, res) => {
   try {
+    const args = req.path.split("/").filter(Boolean)
+    if (args.length === 0) {
+      res.status(400)
+      res.send({ message: "Bad request" })
+      return
+    }
+    if (['subscribe, unsubscribe, multi, exec, discard, watch'].includes(args[0].toLowerCase())) {
+      res.status(501)
+      res.send({ error: `ERR Command is not allowed in REST: "${args[0].toUpperCase()}"` })
+      return
+    }
     const client = createClient({
-      url: `redis://${req.pwd}@run.keva.dev:${req.port}`
+      url: `redis://:${req.pwd}@run.keva.dev:${req.port}`
     })
     await client.connect()
-    const result = await client[args[0]](...args.slice(1))
+    const result = await client.sendCommand(args)
     await client.quit()
     res.send({ result })
   } catch (err) {
     res.status(400)
-    res.send({ error: err })
+    res.send({ error: err.message })
   }
 })
 

@@ -3,7 +3,7 @@ module.exports = {
     name   : "keva-cloud",
     script : "./main.js"
   },{
-    name   : "keva-proxy",
+    name   : "keva-res-proxy",
     script : "./proxy.js",
     exec_mode: "cluster",
     instances: 2,
