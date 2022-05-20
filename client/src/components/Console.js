@@ -185,7 +185,7 @@ function Console() {
           <div>Via <strong>redis-cli</strong>:</div>
           <div><code>redis-cli -h run.keva.dev -p {creds.port} -a {creds.pwd}</code></div>
           <div>Via <strong>REST API</strong> (coming soon):</div>
-          <div><code>curl https://restapi.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code></div>
+          <div><code>curl https://cloud-rest-api.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code></div>
           <div>Via&nbsp;
             <a href="https://redis.io/docs/clients/" target="_blank" rel="noreferrer" style={{ fontWeight: 'bold' }}>Redis Clients</a>,
             also see <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
