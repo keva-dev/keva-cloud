@@ -126,7 +126,7 @@ body {
     background: rgba(0, 0, 0, 0.7);
 
     .popup {
-      margin: 70px auto;
+      margin: 25vh auto;
       padding: 20px;
       border: 1px solid var(--primary-text);
       background: var(--primary-background);
@@ -138,6 +138,10 @@ body {
       flex-direction: column;
       gap: 10px;
       color: var(--primary-text);
+
+      @media screen and (max-width: 540px) {
+        margin: 10vh auto;
+      }
 
       h1 {
         margin: 0;

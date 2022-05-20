@@ -71,7 +71,7 @@ function App() {
           <Route path="*" element={<NotFound/>} />
         </Routes>
         <button className="toggle-theme secondary" onClick={toggleThemeHandler}>
-          Use {themeState === 'dark' ? 'light' : 'dark'} mode
+          Switch to {themeState === 'dark' ? 'light' : 'dark'} mode
         </button>
       </div>
     </BrowserRouter>

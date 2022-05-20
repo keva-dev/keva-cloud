@@ -130,7 +130,7 @@ function Console() {
 
   return (
     <React.Fragment>
-      <h1>Keva Cloud Console</h1>
+      <h1>Cloud Console</h1>
       {!loading && !health && <React.Fragment>
         <p>You haven't spawned any Keva instance</p>
         <button onClick={createServer}>Spawn your Keva instance!</button>
@@ -157,7 +157,7 @@ function Console() {
 
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
-          <h1>Instance's credential</h1>
+          <h1>Keva Instance's credentials</h1>
           <div>Host: run.keva.dev:{creds.port}</div>
           <div>Password: {creds.pwd}</div>
           <h1>Connect to the instance</h1>
@@ -165,7 +165,9 @@ function Console() {
           <div><code>redis-cli -h run.keva.dev -p {creds.port} -a {creds.pwd}</code></div>
           <div>Via <strong>REST API</strong> (coming soon):</div>
           <div><code>curl https://restapi.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code></div>
-          <div>Via <a href="https://redis.io/docs/clients/" target="_blank" rel="noreferrer" style={{ fontWeight: 'bold' }}>Redis Client</a></div>
+          <div>Via&nbsp;
+            <a href="https://redis.io/docs/clients/" target="_blank" rel="noreferrer" style={{ fontWeight: 'bold' }}>Redis Clients</a>,
+            also see <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
           <div style={{ width: '100%', textAlign: 'right' }}>
             <button onClick={closeConnectModal} className="secondary" style={{ minWidth: 'unset'}}>Okay got it!</button>
           </div>
