@@ -52,6 +52,7 @@ function Login() {
           onFailure={responseGoogle}
         />
       </div>
+      <p className="notice">Keva Cloud is a powerful, fully-managed Redis alternative</p>
       <p className="notice"><strong>Free forever 1 Keva instance with 256MB memory per account</strong></p>
       {!hasTryFlag && <p className="notice">Upgrade to pro instance (1GB+ memory) starting 5$/month</p>}
     </React.Fragment>

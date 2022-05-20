@@ -45,6 +45,9 @@ function initTheme() {
 
 initTheme()
 
+const lightLogo = 'https://i.imgur.com/oePAIgz.jpg'
+const darkLogo = 'https://i.imgur.com/PZ2zx1o.jpg'
+
 function App() {
   const [themeState, setThemeState] = useState(localStorage.getItem('theme'))
 
@@ -61,9 +64,9 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <a href="https://keva.dev" target="_blank" rel="noreferrer">
-          <img src="https://avatars.githubusercontent.com/u/91342451?s=200&v=4" alt="Logo"
+          <img src={themeState === 'dark' ? lightLogo : darkLogo} alt="Logo"
                className="rotating"
-               style={{ width: '100px', borderRadius: '50%' }}/>
+               style={{ width: '125px', borderRadius: '50%' }}/>
         </a>
         <Routes>
           <Route path="/" element={<Login/>} />
