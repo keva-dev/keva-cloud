@@ -19,7 +19,7 @@ body {
 
 .app {
   width: calc(100% - 20px);
-  padding: 0 10px;
+  padding: 10px 10px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@ body {
     position: relative;
 
     &.secondary {
-      background-color: transparent;
+      background-color: var(--primary-background);
       color: var(--primary-text);
       border: 1px solid var(--primary-text);
     }
