@@ -140,24 +140,25 @@ function Console() {
         {!loading && health && <div className="metadata">
           <div>Your Keva instance is up! (<a href="#!" onClick={loadHealth}>refresh state</a>)</div>
           <div>Instance ID: {health.ID} (<a href={`https://keva-cloud.tuhuynh.com/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
-          <div>CPU Usage: {health.CPUPerc} (1 core)</div>
+          <div>CPU Usage: {health.CPUPerc} (1 core vCPU)</div>
           <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
           <div>Network Inbound/Outbound: {health.NetIO}</div>
+          <div>Plan: Free-Tier 256MB</div>
         </div>}
         {!loading && health && <div className="controls">
           <div><button className="secondary" onClick={openConnectModal}>Connect</button></div>
           <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
           <div><button disabled={loading} onClick={deleteServer}>Destroy instance</button></div>
+          <div><button className="secondary" onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade plan!</button></div>
         </div>}
       </div>
-      <div>{localStorage.getItem('email')}&nbsp;
+      <div>Account: {localStorage.getItem('email')}&nbsp;
         <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={logout}>(logout?)</span></div>
-      {!hasTryFlag && <div style={{ cursor: 'pointer' }} onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade to Pro instance!</div>}
 
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
           <h1>Instance's credential</h1>
-          <div>Host: redis://run.keva.dev:{creds.port}</div>
+          <div>Host: run.keva.dev:{creds.port}</div>
           <div>Password: {creds.pwd}</div>
           <h1>Connect to the instance</h1>
           <div>Via <strong>redis-cli</strong>:</div>
