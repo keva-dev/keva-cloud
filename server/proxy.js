@@ -43,7 +43,7 @@ app.use(jwtMiddleware, async (req, res) => {
       res.send({ message: "Bad request" })
       return
     }
-    const unsupportedCommands = ['subscribe, unsubscribe, multi, exec, discard, watch']
+    const unsupportedCommands = ['subscribe', 'unsubscribe', 'multi', 'exec', 'discard', 'watch']
     if (unsupportedCommands.includes(args[0].toLowerCase())) {
       res.status(501)
       res.send({ error: `ERR Command is not allowed in REST: "${args[0].toUpperCase()}"` })
