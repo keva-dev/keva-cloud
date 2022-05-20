@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
+import GoogleSvg from './Google.svg'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
@@ -46,7 +47,10 @@ function Login() {
         <GoogleLogin
           clientId="834798810236-mo101qd4s238ajssl05n4j4t9i2r4ch5.apps.googleusercontent.com"
           render={renderProps => (
-            <button type="button" onClick={renderProps.onClick}>Login with Google</button>
+            <button type="button" onClick={renderProps.onClick} style={{ padding: '15px 0' }}>
+              <img src={GoogleSvg} alt="Google"/>
+              Login with Google
+            </button>
           )}
           onSuccess={responseGoogle}
           onFailure={responseGoogle}

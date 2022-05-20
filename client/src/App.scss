@@ -52,11 +52,17 @@ body {
     border-radius: 5px;
     background-color: var(--secondary-background);
     color: var(--secondary-text);
+    position: relative;
 
     &.secondary {
       background-color: transparent;
       color: var(--primary-text);
       border: 1px solid var(--primary-text);
+    }
+
+    img {
+      position: absolute;
+      left: 15px;
     }
   }
 
