@@ -1,21 +1,8 @@
 require("dotenv").config()
 const { exec } = require("child_process")
 const storage = require('node-persist')
-const jwt = require("jsonwebtoken")
 const axios = require("axios")
-const secret = process.env.JWT_SECRET || "DEFAULT_SECRET";
-
-const createJWT = (identify, obj, expireTime = "24h") =>
-    jwt.sign(
-      {
-        ...identify,
-        ...obj
-      },
-      secret,
-      { expiresIn: expireTime }
-    )
-
-const verifyJWT = token => jwt.verify(token, secret)
+const { createJWT, jwtMiddleware } = require("./jwt")
 
 const users = [
   // {
@@ -34,15 +21,15 @@ async function init() {
   }
 
   setInterval(async () => {
-    saveDB()
-  }, 1000 * 5);
+    await saveDB()
+  }, 1000 * 5)
 }
 
 async function saveDB() {
   await storage.setItem('db', JSON.stringify(users))
 }
 
-init()
+void init()
 
 async function executeCommand(cmd) {
   return new Promise((resolve, reject) => {
@@ -133,6 +120,8 @@ async function getStats(containerId) {
   return listStats.map(l => JSON.parse(l))
 }
 
+// Server
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -141,29 +130,6 @@ const bodyParser = require('body-parser')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
-const jwtMiddleware = (req, res, next) => {
-  const getToken = req =>
-    req.headers.authorization &&
-    req.headers.authorization.split(" ")[0] === "Bearer"
-      ? req.headers.authorization.split(" ")[1]
-      : req.query && req.query.token
-      ? req.query.token
-      : null
-
-  try {
-    const token = getToken(req)
-    const payload = verifyJWT(token)
-
-    const { email } = payload
-    req.email = email
-
-    next()
-  } catch (err) {
-    res.status(401)
-    res.send({ message: "Unauthorized", error: err })
-  }
-};
 
 app.post('/login', async function (req, res) {
   const verifyGoogleOAuth = async t => {
@@ -174,7 +140,7 @@ app.post('/login', async function (req, res) {
     return data
   }
   try {
-    const { email } = await verifyGoogleOAuth(req.body.token);
+    const { email } = await verifyGoogleOAuth(req.body.token)
     const token = createJWT({ email })
     return res.send({ token, email })
   } catch(err) {
@@ -266,7 +232,7 @@ app.get('/log', jwtMiddleware, async function (req, res) {
   }
 })
 
-app.get('/users', async function (req, res) {
+app.get('/admin', async function (req, res) {
   const id = req.query.id
   if (id !== process.env.ADMIN) {
     return res.status(400).send({ message: 'You are not admin' })
