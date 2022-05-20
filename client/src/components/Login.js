@@ -53,7 +53,8 @@ function Login() {
         <GoogleLogin
           clientId="834798810236-mo101qd4s238ajssl05n4j4t9i2r4ch5.apps.googleusercontent.com"
           render={renderProps => (
-            <button type="button" className={loading ? 'loading' : ''} onClick={renderProps.onClick} style={{ padding: '15px 0' }}>
+            <button type="button" className={loading ? 'loading' : ''}
+                    onClick={renderProps.onClick} style={{ fontSize: '1.25rem', padding: '15px 0' }}>
               <img src={GoogleSvg} alt="Google"/>
               Login with Google
             </button>
