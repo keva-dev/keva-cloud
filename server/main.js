@@ -79,7 +79,7 @@ async function createKevaInstance(email) {
     userObj.containerId = containerId
     userObj.port = port
     userObj.pwd = pwd
-    userObj.token = createJWT({ email }, null, "8760h")
+    userObj.token = createJWT({ port, pwd }, null, "8760h")
     return {
       pwd,
       containerId,
