@@ -29,6 +29,12 @@ body {
   background-color: var(--primary-background);
   color: var(--primary-text);
 
+  select {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1rem;
+    border: 0;
+  }
+
   h1, p {
     margin: 0;
   }

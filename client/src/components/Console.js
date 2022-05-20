@@ -56,6 +56,7 @@ async function restartServerApi() {
 function Console() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
+  const [createLoading, setCreateLoading] = useState(false)
   const [health, setHealth] = useState(null)
   const [creds, setCreds] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -84,7 +85,11 @@ function Console() {
   }
 
   async function createServer() {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+    setCreateLoading(true)
+    await sleep(3500)
     await createServerApi()
+    setCreateLoading(false)
     loadHealth()
     await openConnectModal()
   }
@@ -132,11 +137,18 @@ function Console() {
       <h1>Cloud Console</h1>
       {!loading && !health && <React.Fragment>
         <p>You haven't spawned any Keva instance</p>
-        <button onClick={createServer} style={{ fontSize: '16px' }}>
+        <button onClick={createServer} style={{ fontSize: '16px' }} className={createLoading ? 'loading' : ''}>
           Spawn a Keva instance!
         </button>
-        <p>Version: Keva@latest</p>
-        <p>Region: Singapore</p>
+        <p>Version <select disabled={createLoading}>
+          <option>Keva@latest</option>
+          <option>Keva@1.0.0-rc1</option>
+          <option disabled>Keva@1.0.0-rc0</option>
+        </select></p>
+        <p>Region <select disabled={createLoading}>
+          <option disabled>Tokyo, Japan</option>
+          <option>Singapore</option>
+        </select></p>
       </React.Fragment>}
       <div className="console">
         {loading && <div className="lds-ripple"><div/><div/></div>}
