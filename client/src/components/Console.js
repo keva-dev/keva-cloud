@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { toast } from './toast'
 
 axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
 
@@ -151,7 +152,7 @@ function Console() {
           <div><button className="secondary" onClick={openConnectModal}>Connect</button></div>
           <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
           <div><button disabled={loading} onClick={deleteServer}>Destroy instance</button></div>
-          <div><button className="secondary" onClick={() => window.alert('Please contact cloud@keva.dev')}>Upgrade plan!</button></div>
+          <div><button className="secondary" onClick={() => toast('Please contact cloud@keva.dev')}>Upgrade plan!</button></div>
         </div>}
       </div>
       <div>Account: {localStorage.getItem('email')}&nbsp;
