@@ -38,7 +38,7 @@ const jwtMiddleware = (req, res, next) => {
 app.use(jwtMiddleware, async (req, res) => {
   try {
     const argsFromPath = req.path.split("/").filter(Boolean)
-    const argsFromBody = req.body ? JSON.parse(req.body) : []
+    const argsFromBody = req.body ? req.body : []
     const args = argsFromPath.length > 0 ? argsFromPath : argsFromBody
     if (args.length === 0) {
       res.status(400)
