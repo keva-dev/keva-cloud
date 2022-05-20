@@ -37,7 +37,9 @@ const jwtMiddleware = (req, res, next) => {
 
 app.use(jwtMiddleware, async (req, res) => {
   try {
-    const args = req.path.split("/").filter(Boolean)
+    const argsFromPath = req.path.split("/").filter(Boolean)
+    const argsFromBody = req.body ? JSON.parse(req.body) : []
+    const args = argsFromPath.length > 0 ? argsFromPath : argsFromBody
     if (args.length === 0) {
       res.status(400)
       res.send({ message: "Bad request" })
