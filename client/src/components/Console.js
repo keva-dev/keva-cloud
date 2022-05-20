@@ -149,6 +149,12 @@ function Console() {
           <option disabled>Tokyo, Japan</option>
           <option>Singapore</option>
         </select></p>
+        <p>Strong Consistency*: <select disabled={createLoading}>
+          <option disabled>Enabled</option>
+          <option>Disabled</option>
+        </select></p>
+        <p className="notice" style={{ maxWidth: '350px' }}>
+          *When strong consistency is enabled, persistence to disk are performed before returning response to the client</p>
       </React.Fragment>}
       <div className="console">
         {loading && <div className="lds-ripple"><div/><div/></div>}
