@@ -61,7 +61,9 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <a href="https://keva.dev" target="_blank" rel="noreferrer">
-          <img src="https://i.imgur.com/z0c9bV7.png" alt="Logo" style={{ width: '100px' }}/>
+          <img src="https://avatars.githubusercontent.com/u/91342451?s=200&v=4" alt="Logo"
+               className="rotating"
+               style={{ width: '100px', borderRadius: '50%' }}/>
         </a>
         <Routes>
           <Route path="/" element={<Login/>} />
