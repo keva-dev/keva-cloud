@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from './toast'
 
-axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
+axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
 
 const service = axios.create()
 service.interceptors.request.use(
@@ -160,7 +160,7 @@ function Console() {
         {loading && <div className="lds-ripple"><div/><div/></div>}
         {!loading && health && <div className="metadata">
           <div>Your Keva instance is up! (<a href="#!" onClick={loadHealth}>refresh state</a>)</div>
-          <div>Instance ID: {health.Name} (<a href={`https://keva-cloud.tuhuynh.com/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
+          <div>Instance ID: {health.Name} (<a href={`https://cloud-console-api.keva.dev/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
           <div>CPU Usage: {health.CPUPerc} (1 core vCPU)</div>
           <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
           <div>Network Inbound/Outbound: {health.NetIO}</div>

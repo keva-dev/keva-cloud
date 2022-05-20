@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login'
 import GoogleSvg from './Google.svg'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://keva-cloud.tuhuynh.com'
+axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
 
 function init() {
   const hasTryFlag = window.location.href.includes("try")
