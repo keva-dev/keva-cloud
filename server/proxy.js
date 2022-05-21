@@ -38,15 +38,15 @@ const jwtMiddleware = (req, res, next) => {
 app.use(jwtMiddleware, async (req, res) => {
   try {
     const argsFromPath = req.path.split("/").filter(Boolean)
-    const argsFromBody = req.body ? req.body : []
-    const args = argsFromPath.length > 0 ? argsFromPath : argsFromBody
+    const argsFromBody = (req.body && req.body.length) ? req.body : []
+    const args = argsFromPath.concat(argsFromBody)
     if (args.length === 0) {
       res.status(400)
-      res.send({ message: "Bad request" })
+      res.send({ message: "ERR Command is empty" })
       return
     }
     const unsupportedCommands = ['subscribe', 'unsubscribe', 'multi', 'exec', 'discard', 'watch']
-    if (unsupportedCommands.includes(args[0].toLowerCase())) {
+    if (args[0] && unsupportedCommands.includes(args[0].toLowerCase())) {
       res.status(501)
       res.send({ error: `ERR Command is not allowed in REST: "${args[0].toUpperCase()}"` })
       return
