@@ -260,12 +260,6 @@ app.get('/admin', async function (req, res) {
   if (id !== process.env.ADMIN) {
     return res.status(400).send({ message: 'You are not admin' })
   }
-  users.filter(u => {
-    u.accountCreateTime = Math.floor(+new Date() / 1000)
-    u.instanceCreateTime = Math.floor(+new Date() / 1000)
-    u.lastAccessTime = Math.floor(+new Date() / 1000)
-    u.accountType = "google"
-  })
   return res.send(users)
 })
 
