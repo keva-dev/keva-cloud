@@ -124,7 +124,6 @@ async function removeKevaInstance(email) {
     userObj.containerId = null
     userObj.port = null
     userObj.pwd = null
-    userObj.token = null
     return
   }
   throw new Error('Cannot find that email')
@@ -333,6 +332,10 @@ app.get('/admin', async function (req, res) {
     arch: os.arch(),
     release: os.release(),
   }
+
+  users.forEach(u => {
+    delete u.token
+  })
 
   return res.send({
     accountStats,
