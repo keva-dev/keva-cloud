@@ -8,6 +8,9 @@ import Tabs from './Tabs'
 axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
 
 const service = axios.create()
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
 service.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token')
@@ -86,7 +89,6 @@ function Console() {
   }
 
   async function createServer() {
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
     setCreateLoading(true)
     await createServerApi()
     await sleep(3000)
@@ -124,6 +126,7 @@ function Console() {
       return
     }
     await restartServerApi()
+    await sleep(1500)
     loadHealth()
   }
 
