@@ -261,7 +261,10 @@ app.get('/admin', async function (req, res) {
     return res.status(400).send({ message: 'You are not admin' })
   }
   users.filter(u => {
-    delete u.token
+    u.accountCreateTime = Math.floor(+new Date() / 1000)
+    u.instanceCreateTime = Math.floor(+new Date() / 1000)
+    u.lastAccessTime = Math.floor(+new Date() / 1000)
+    u.accountType = "google"
   })
   return res.send(users)
 })
