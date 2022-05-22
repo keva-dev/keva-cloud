@@ -310,6 +310,7 @@ app.get('/admin', async function (req, res) {
     memory: {
       total: (os.totalmem() / 1024 / 1024 / 1024).toFixed(2) + ' GB',
       free: (os.freemem() / 1024 / 1024 / 1024).toFixed() + ' GB',
+      enoughForNext: ((os.freemem() / 1024 / 1024) / 256).toFixed(2) + ' instances',
     },
     uptime: (os.uptime() / 60).toFixed(0) + ' minutes',
     hostname: os.hostname(),
