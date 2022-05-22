@@ -46,7 +46,6 @@ function Login() {
 
   function responseGithub(data) {
     if (data.code) {
-      console.log(data.code)
       void onLogin({ code: data.code })
     }
   }
