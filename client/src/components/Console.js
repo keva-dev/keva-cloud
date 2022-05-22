@@ -1,36 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import axios from 'axios'
+import { service } from './axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from './toast'
 import Tabs from './Tabs'
 
-axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
-
-const service = axios.create()
-
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
-
-service.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-  }
-)
-
-service.interceptors.response.use(response => {
-  return response;
-}, error => {
-  if (error.response.status === 401) {
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
-    window.location.href = '/'
-  }
-  return error
-})
 
 async function getHealthApi() {
   const { data } = await service.get(`/health`)

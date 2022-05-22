@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { service } from './axios'
 import GoogleLogin from 'react-google-login'
 import GoogleSvg from './Google.svg'
-import GitHubLogin from './GithubLogin'
-import axios from 'axios'
-
-axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
+import GitHubLogin from './github/GithubLogin'
 
 function init() {
   const hasTryFlag = window.location.href.includes("try")
@@ -31,7 +29,7 @@ function Login() {
   async function onLogin({ token, code }) {
     setLoading(token ? 1 : 2)
     await sleep(500)
-    const { data } = await axios.post('/login', token ? { token } : { code })
+    const { data } = await service.post('/login', token ? { token } : { code })
     localStorage.setItem('token', data.token)
     localStorage.setItem('email', data.email)
     setLoading(0)
