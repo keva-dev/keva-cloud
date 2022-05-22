@@ -1,8 +1,9 @@
-require("dotenv").config()
-const { exec } = require("child_process")
+require('dotenv').config()
+const { exec } = require('child_process')
+const os = require('os')
 const storage = require('node-persist')
-const axios = require("axios")
-const { createJWT, verifyJWT } = require("./jwt")
+const axios = require('axios')
+const { createJWT, verifyJWT } = require('./jwt')
 
 const users = [
   // {
@@ -303,7 +304,25 @@ app.get('/admin', async function (req, res) {
     containers: users.filter(u => u.containerId).length,
     users,
   }
-  return res.send(accountStats)
+
+  const hostStats = {
+    cpuLoad: os.cpus(),
+    memory: {
+      total: os.totalmem(),
+      free: os.freemem(),
+    },
+    uptime: os.uptime(),
+    hostname: os.hostname(),
+    platform: os.platform(),
+    arch: os.arch(),
+    release: os.release(),
+    networkInterfaces: os.networkInterfaces(),
+  }
+
+  return res.send({
+    accountStats,
+    hostStats,
+  })
 })
 
 const port = process.env.PORT || 2222
