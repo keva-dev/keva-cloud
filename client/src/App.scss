@@ -211,9 +211,9 @@ body {
     .popup {
       margin: 100px auto;
       max-height: calc(100vh - 250px);
-      overflow-y: scroll;
+      overflow-y: auto;
       padding: 20px;
-      border: 1px solid var(--primary-text);
+      border: 0;
       background: var(--primary-background);
       border-radius: 5px;
       width: calc(90% - 40px);
