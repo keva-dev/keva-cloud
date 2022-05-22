@@ -87,8 +87,8 @@ function Console() {
   async function createServer() {
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
     setCreateLoading(true)
-    await sleep(3500)
     await createServerApi()
+    await sleep(3000)
     setCreateLoading(false)
     loadHealth()
     await openConnectModal()
