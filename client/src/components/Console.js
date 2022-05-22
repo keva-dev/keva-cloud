@@ -184,6 +184,8 @@ function Console() {
           <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
           <div><button disabled={loading} onClick={deleteServer}>Destroy instance</button></div>
           {(!creds || !creds.plan) && <div><button className="secondary" onClick={upgrade}>Upgrade plan!</button></div>}
+          {creds.plan && <div><a href="mailto:cloud@keva.dev" target="_blank" rel="noreferrer">
+            <button className="secondary">Support</button></a></div>}
         </div>}
       </div>
       <div>Account: {creds ? `(${creds.accountType})` : '(google)' } {localStorage.getItem('email')}&nbsp;
