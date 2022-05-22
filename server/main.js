@@ -306,13 +306,13 @@ app.get('/admin', async function (req, res) {
   }
 
   const hostStats = {
-    cpuLoad: os.cpus(),
     memory: {
       total: (os.totalmem() / 1024 / 1024 / 1024).toFixed(2) + ' GB',
       free: (os.freemem() / 1024 / 1024 / 1024).toFixed() + ' GB',
-      enoughForNext: ((os.freemem() / 1024 / 1024) / 256).toFixed(2) + ' instances',
+      enoughForNext: ((os.freemem() / 1024 / 1024) / 256).toFixed(0) + ' instances',
     },
-    uptime: (os.uptime() / 60).toFixed(0) + ' minutes',
+    uptime: (os.uptime() / 60).toFixed(0) + ' minutes' + ' or ' +
+      (os.uptime() / 60 / 60).toFixed(0) + ' hours',
     hostname: os.hostname(),
     platform: os.platform(),
     arch: os.arch(),
