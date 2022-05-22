@@ -196,8 +196,6 @@ app.post('/login', async function (req, res) {
       const userObj = selectUser(email)
       userObj.accountType = 'github'
       userObj.lastLoginTime = Math.floor(+new Date() / 1000)
-      userObj.lastLoginIP = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||
-        req.socket.remoteAddress
       return res.send({ token, email })
     }
     return res.send({ error: "Invalid request" })
@@ -269,6 +267,7 @@ app.put('/restart', jwtMiddleware, async function (req, res) {
   const containerId = userObj.containerId
   try {
     await restartKevaInstance(containerId)
+    userObj.instanceLastRestartTime = Math.floor(+new Date() / 1000)
     return res.send({ message: 'Done'})
   } catch(err) {
     return res.status(400).send({ err: err.message })

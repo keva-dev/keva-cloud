@@ -168,8 +168,7 @@ function Console() {
       </div>
       <div>Account: {localStorage.getItem('email')}&nbsp;
         <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={logout}>(logout?)</span></div>
-      {creds &&
-        <div>Last access: {dayjs(dayjs.unix(creds.lastAccessTime)).fromNow()}</div>}
+      {creds && creds.lastLoginTime && <div>Last login: {dayjs(dayjs.unix(creds.lastLoginTime)).fromNow()}</div>}
 
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
