@@ -59,7 +59,7 @@ class GitHubLogin extends Component {
     }
 
     return <button {...attrs}>
-      <img src={GithubSvg} alt="Google"/>
+      <img src={GithubSvg} style={{ filter: 'invert(40%)' }} alt="Github"/>
       { children || buttonText }
     </button>
   }

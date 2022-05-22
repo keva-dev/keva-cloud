@@ -20,7 +20,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 function Login() {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(0)
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -29,12 +29,12 @@ function Login() {
   }, [navigate])
 
   async function onLogin({ token, code }) {
-    setLoading(true)
+    setLoading(token ? 1 : 2)
     await sleep(500)
     const { data } = await axios.post('/login', token ? { token } : { code })
     localStorage.setItem('token', data.token)
     localStorage.setItem('email', data.email)
-    setLoading(false)
+    setLoading(0)
     navigate('/console')
   }
 
@@ -61,7 +61,7 @@ function Login() {
         <GoogleLogin
           clientId="834798810236-mo101qd4s238ajssl05n4j4t9i2r4ch5.apps.googleusercontent.com"
           render={renderProps => (
-            <button type="button" className={loading ? 'loading' : ''}
+            <button type="button" className={loading === 1 ? 'loading' : ''}
                     onClick={renderProps.onClick} style={{ fontSize: '1.25rem', padding: '15px 0' }}>
               <img src={GoogleSvg} alt="Google"/>
               Login with Google
@@ -73,7 +73,8 @@ function Login() {
         <GitHubLogin
           clientId="82fc0486461a6a6bc115"
           onSuccess={responseGithub} onFailure={responseGithub}
-          style={{ backgroundColor: 'white', color: 'black', border: '1px solid black', fontSize: '1.25rem', padding: '15px 0' }}
+          className={loading === 2 ? 'loading' : ''}
+          style={{ border: '1px solid black', fontSize: '1.25rem', padding: '15px 0' }}
         />
       </div>
       <p className="notice">Keva Cloud is a powerful, fully-managed <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Redis alternative</a></p>
