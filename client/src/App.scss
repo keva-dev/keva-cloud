@@ -20,7 +20,7 @@ body {
 .app {
   width: calc(100% - 20px);
   padding: 10px 10px;
-  min-height: 100vh;
+  min-height: calc(100vh - 25px);
   display: flex;
   flex-direction: column;
   justify-content: center;

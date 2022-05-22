@@ -180,8 +180,10 @@ function Console() {
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
           <h2>Keva Instance's credentials</h2>
-          <div>Host: run.keva.dev:{creds.port}</div>
+          <div>Region: Singapore</div>
+          <div>Endpoint: run.keva.dev</div>
           <div>Password: {creds.pwd}</div>
+          <div>Port: {creds.port}</div>
           <h2>Connect to the instance</h2>
           <Tabs tabs={
             [
