@@ -4,6 +4,10 @@ import { service } from './axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from './toast'
 import Tabs from './Tabs'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -50,6 +54,10 @@ function Console() {
     loadHealth()
   }, [])
 
+  useEffect(() => {
+    void getCreds()
+  }, [])
+
   function loadHealth() {
     setLoading(true)
     getHealthApi().then(r => {
@@ -72,10 +80,14 @@ function Console() {
     await openConnectModal()
   }
 
-  async function openConnectModal(e) {
-    if (e) { e.preventDefault() }
+  async function getCreds() {
     const data = await getCredsApi()
     setCreds(data)
+  }
+
+  async function openConnectModal(e) {
+    if (e) { e.preventDefault() }
+    await getCreds()
     setIsModalOpen(true)
   }
 
@@ -138,9 +150,11 @@ function Console() {
       <div className="console">
         {loading && <div className="lds-ripple"><div/><div/></div>}
         {!loading && health && <div className="metadata">
-          <div>Your Keva instance is up! (<a href="#!" onClick={loadHealth}>refresh state</a>)</div>
-          <div>Instance ID: {health.Name} (<a href={`https://cloud-console-api.keva.dev/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">view log</a>)</div>
-          <div>CPU Usage: {health.CPUPerc} (1 core vCPU)</div>
+          <div>Your Keva instance is up, {creds && <span>
+            {dayjs(dayjs.unix(creds.instanceCreateTime)).fromNow()}
+          </span>}</div>
+          <div>Instance ID: {health.Name} (<a href={`https://cloud-console-api.keva.dev/log?token=${localStorage.getItem('token')}`} target="_blank" rel="noreferrer">log</a>)</div>
+          <div>CPU Usage: {health.CPUPerc} (<a href="#!" onClick={loadHealth}>refresh</a>)</div>
           <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
           <div>Network Inbound/Outbound: {health.NetIO}</div>
           <div>Plan: Free-Tier 256MB</div>
@@ -154,6 +168,8 @@ function Console() {
       </div>
       <div>Account: {localStorage.getItem('email')}&nbsp;
         <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={logout}>(logout?)</span></div>
+      {creds &&
+        <div>Last access: {dayjs(dayjs.unix(creds.lastAccessTime)).fromNow()}</div>}
 
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
