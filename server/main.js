@@ -305,18 +305,33 @@ app.get('/admin', async function (req, res) {
     users,
   }
 
+  let timesBefore = os.cpus().map(c => c.times)
+  function getAverageUsage() {
+    let timesAfter = os.cpus().map(c => c.times);
+    let timeDeltas = timesAfter.map((t, i) => ({
+      user: t.user - timesBefore[i].user,
+      sys: t.sys - timesBefore[i].sys,
+      idle: t.idle - timesBefore[i].idle,
+    }))
+
+    timesBefore = timesAfter
+
+    return timeDeltas
+      .map(times => 1 - times.idle / (times.user + times.sys + times.idle))
+      .reduce((l1, l2) => l1 + l2) / timeDeltas.length;
+  }
+
   const hostStats = {
-    cpuLoad: os.cpus(),
+    cpuLoad: getAverageUsage(),
     memory: {
-      total: os.totalmem(),
-      free: os.freemem(),
+      total: os.totalmem() / 1024 / 1024 / 1024 + ' GB',
+      free: os.freemem() / 1024 / 1024 / 1024 + ' GB',
     },
-    uptime: os.uptime(),
+    uptime: os.uptime() / 60 + ' minutes',
     hostname: os.hostname(),
     platform: os.platform(),
     arch: os.arch(),
     release: os.release(),
-    networkInterfaces: os.networkInterfaces(),
   }
 
   return res.send({
