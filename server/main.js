@@ -196,7 +196,8 @@ app.post('/login', async function (req, res) {
       const userObj = selectUser(email)
       userObj.accountType = 'github'
       userObj.lastLoginTime = Math.floor(+new Date() / 1000)
-      userObj.lastLoginIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+      userObj.lastLoginIP = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||
+        req.socket.remoteAddress
       return res.send({ token, email })
     }
     return res.send({ error: "Invalid request" })
