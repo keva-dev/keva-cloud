@@ -166,7 +166,7 @@ function Console() {
           <div><button className="secondary" onClick={() => toast('Please contact cloud@keva.dev')}>Upgrade plan!</button></div>
         </div>}
       </div>
-      <div>Account: ({creds ? creds.accountType : 'google' }) {localStorage.getItem('email')}&nbsp;
+      <div>Account: {creds ? `(${creds.accountType})` : '(google)' } {localStorage.getItem('email')}&nbsp;
         <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={logout}>(logout?)</span></div>
       {creds && creds.lastLoginTime &&
       <div>Last login: {dayjs(dayjs.unix(creds.lastLoginTime)).fromNow()} from {creds.lastLoginIP}</div>}
