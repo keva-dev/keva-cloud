@@ -177,7 +177,7 @@ function Console() {
           <div>CPU Usage: {health.CPUPerc} (<a href="#!" onClick={loadHealth}>refresh</a>)</div>
           <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
           <div>Network Inbound/Outbound: {health.NetIO}</div>
-          <div>Plan: {!creds && 'Free-Tier 256MB'} {creds && creds.plan}</div>
+          <div>Plan: {(!creds || !creds.plan) && 'Free-Tier 256MB'} {creds && creds.plan}</div>
         </div>}
         {!loading && health && <div className="controls">
           <div><button className="secondary" onClick={openConnectModal}>Connect</button></div>
