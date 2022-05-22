@@ -134,7 +134,7 @@ async function restartKevaInstance(containerId) {
 }
 
 async function upgradeKevaInstance(containerId, memory=1024) {
-  const cmd = `docker update -m ${memory}m ${containerId}`
+  const cmd = `docker update --memory-swap ${memory}m ${containerId}`
   await executeCommand(cmd)
 }
 
