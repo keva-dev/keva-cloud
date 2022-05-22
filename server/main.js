@@ -173,7 +173,10 @@ app.post('/login', async function (req, res) {
       const userObj = selectUser(email)
       userObj.accountType = 'google'
       userObj.lastLoginTime = Math.floor(+new Date() / 1000)
-      userObj.lastLoginIP = req.connection.remoteAddress
+      const parseIp = (req) =>
+        req.headers['x-forwarded-for']?.split(',').shift()
+        || req.socket?.remoteAddress
+      userObj.lastLoginIP = parseIp(req)
       return res.send({ token, email })
     }
     if (req.body.code) {
