@@ -29,7 +29,7 @@ function Login() {
 
   async function onLogin({ token }) {
     setLoading(true)
-    await sleep(1000)
+    await sleep(500)
     const { data } = await axios.post('/login', { token })
     localStorage.setItem('token', data.token)
     localStorage.setItem('email', data.email)

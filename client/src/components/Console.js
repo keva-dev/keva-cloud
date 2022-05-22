@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from './toast'
+import Tabs from './Tabs'
 
 axios.defaults.baseURL = 'https://cloud-console-api.keva.dev'
 
@@ -178,17 +179,144 @@ function Console() {
 
       {isModalOpen && <div className="popup-overlay">
         <div className="popup">
-          <h1>Keva Instance's credentials</h1>
+          <h2>Keva Instance's credentials</h2>
           <div>Host: run.keva.dev:{creds.port}</div>
           <div>Password: {creds.pwd}</div>
-          <h1>Connect to the instance</h1>
-          <div>Via <strong>redis-cli</strong>:</div>
-          <div><code>redis-cli -h run.keva.dev -p {creds.port} -a {creds.pwd}</code></div>
-          <div>Via <strong>REST API</strong>:</div>
-          <div><code>curl https://cloud-rest-api.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code></div>
-          <div>Via&nbsp;
-            <a href="https://redis.io/docs/clients/" target="_blank" rel="noreferrer" style={{ fontWeight: 'bold' }}>Redis Clients</a>,
-            also see <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
+          <h2>Connect to the instance</h2>
+          <Tabs tabs={
+            [
+              {
+                name: 'redis-cli',
+                content: <React.Fragment>
+                  <div className="code"><code>redis-cli -u redis://{creds.pwd}@run.keva.dev:{creds.port}</code></div>
+                  <div>If need TLS, you should use <a href="https://www.stunnel.org/" target="_blank" rel="noreferrer">Stunnel</a>&nbsp;
+                    to establish a secure connection</div>
+                </React.Fragment>,
+              },
+              {
+                name: 'Node',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/luin/ioredis" target="_blank" rel="noreferrer">ioredis</a></div>
+                  <div className="code">
+                    <code>
+                      {`const Redis = require("ioredis");
+
+const client = new Redis("redis://:${creds.pwd}@run.keva.dev:${creds.port}");
+client.set('foo', 'bar');`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+              {
+                name: 'Python',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/andymccurdy/" target="_blank" rel="noreferrer">redis-py</a></div>
+                  <div className="code">
+                    <code>
+                      {`import redis
+
+r = redis.Redis(
+  host= 'run.keva.dev',
+  port= '${creds.port}',
+  password= '${creds.pwd})
+
+r.set('foo','bar')
+print(r.get('foo'))`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+              {
+                name: 'Java',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/redis/jedis" target="_blank" rel="noreferrer">Jedis</a></div>
+                  <div className="code">
+                    <code>
+                      {`public static void main(String[] args) {
+    Jedis jedis = new Jedis("run.keva.dev", ${creds.port});
+    jedis.auth("${creds.pwd}");
+
+    jedis.set("foo", "bar");
+    String value = jedis.get("foo");
+}`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+              {
+                name: 'Go',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/go-redis/redis" target="_blank" rel="noreferrer">go-redis</a></div>
+                  <div className="code">
+                    <code>
+                      {`var ctx = context.Background()
+
+func main() {
+  opt, _ := redis.ParseURL("redis://:${creds.pwd}@run.keva.dev:${creds.port}")
+  client := redis.NewClient(opt)
+
+  client.Set(ctx, "foo", "bar", 0)
+  val := client.Get(ctx, "foo").Val()
+  print(val)
+}`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+              {
+                name: 'Docker',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/go-redis/redis" target="_blank" rel="noreferrer">go-redis</a></div>
+                  <div className="code">
+                    <code>
+                      {`docker run -it redis:alpine redis-cli -u redis://${creds.pwd}@run.keva.dev:${creds.port}`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+            ]
+          }/>
+          <div>Also see <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
+          <h2>REST API</h2>
+          <div>REST API enables you to access your Keva Cloud instance using REST</div>
+          <Tabs
+            tabs={[
+              {
+                name: 'cURL',
+                content: <div className="code">
+                  <code>curl https://cloud-rest-api.keva.dev/set/foo/bar -H "Authorization: Bearer {creds.token}"</code>
+                </div>
+              },
+              {
+                name: 'JavaScript (fetch)',
+                content: <div className="code">
+                  <code>
+                    {`fetch("https://cloud-rest-api.keva.dev/set/foo/bar/get/foo", {
+  headers: {
+    Authorization: "Bearer ${creds.token}"
+  }
+}).then(response => response.json())
+  .then(data => console.log(data));`}
+                  </code>
+                </div>
+              },
+              {
+                name: '@upstash/redis',
+                content: <div className="code">
+                  <code>
+                    {`import { Redis } from '@upstash/redis'
+
+const redis = new Redis({
+  url: 'https://cloud-rest-api.keva.dev',
+  token: '${creds.token}',
+})
+   
+const data = await redis.get('key');`}
+                  </code>
+                </div>
+              }
+            ]}
+          />
           <div style={{ width: '100%', textAlign: 'right' }}>
             <button onClick={closeConnectModal} className="secondary" style={{ minWidth: 'unset'}}>Okay got it!</button>
           </div>
