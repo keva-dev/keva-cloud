@@ -351,14 +351,17 @@ app.post('/upgrade', jwtMiddleware, async function (req, res) {
   try {
     const code = req.body.code
     let memory = 256
-    if (code === process.env.UPGRADE_CODE) {
+    let planName = 'Free-Tier'
+    if (code === process.env.NINJA_CODE_1) {
       memory = 1024
-    } else if (code === process.env.UPGRADE_CODE_2) {
+      planName = 'NinjaVan-Hackathon'
+    } else if (code === process.env.NINJA_CODE_2) {
       memory = 2048
+      planName = 'NinjaVan-Hackathon'
     } else {
       return res.status(400).send({ err: 'Invalid code' })
     }
-    userObj.plan = 'Pro ' + memory + 'MB'
+    userObj.plan = planName + ' ' + memory + 'MB'
     await upgradeKevaInstance(userObj.containerId, memory)
     return res.send({ message: 'Done'})
   } catch(err) {
