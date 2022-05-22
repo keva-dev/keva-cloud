@@ -333,10 +333,6 @@ app.get('/admin', async function (req, res) {
     release: os.release(),
   }
 
-  users.forEach(u => {
-    delete u.token
-  })
-
   return res.send({
     accountStats,
     hostStats,
