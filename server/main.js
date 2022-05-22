@@ -357,6 +357,7 @@ app.post('/upgrade', jwtMiddleware, async function (req, res) {
     } else {
       return res.status(400).send({ err: 'Invalid code' })
     }
+    userObj.plan = 'Pro ' + memory + 'MB'
     await upgradeKevaInstance(userObj.containerId, memory)
     return res.send({ message: 'Done'})
   } catch(err) {
