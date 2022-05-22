@@ -227,6 +227,22 @@ print(r.get('foo'))`}
                 </React.Fragment>
               },
               {
+                name: 'Ruby',
+                content: <React.Fragment>
+                  <div>Library: <a href="https://github.com/redis/redis-rb" target="_blank" rel="noreferrer">redis-rb</a></div>
+                  <div className="code">
+                    <code>
+                      {`require "redis"
+
+redis = Redis.new(url: "redis://:${creds.pwd}@run.keva.dev:${creds.port}")
+
+redis.set("foo", "bar")
+puts redis.get("foo")`}
+                    </code>
+                  </div>
+                </React.Fragment>
+              },
+              {
                 name: 'Java',
                 content: <React.Fragment>
                   <div>Library: <a href="https://github.com/redis/jedis" target="_blank" rel="noreferrer">Jedis</a></div>
