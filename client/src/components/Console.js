@@ -134,6 +134,7 @@ function Console() {
       if (resp.data && resp.data.message) {
         toast(resp.data.message)
         loadHealth()
+        await getCreds()
       } else if (resp.response.data.err) {
         toast(resp.response.data.err)
       }
@@ -176,13 +177,13 @@ function Console() {
           <div>CPU Usage: {health.CPUPerc} (<a href="#!" onClick={loadHealth}>refresh</a>)</div>
           <div>Memory Usage: {health.MemUsage} ({health.MemPerc})</div>
           <div>Network Inbound/Outbound: {health.NetIO}</div>
-          <div>Plan: Free-Tier 256MB</div>
+          <div>Plan: {!creds && 'Free-Tier 256MB'} {creds && creds.plan}</div>
         </div>}
         {!loading && health && <div className="controls">
           <div><button className="secondary" onClick={openConnectModal}>Connect</button></div>
           <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
           <div><button disabled={loading} onClick={deleteServer}>Destroy instance</button></div>
-          <div><button className="secondary" onClick={upgrade}>Upgrade plan!</button></div>
+          {(!creds || !creds.plan) && <div><button className="secondary" onClick={upgrade}>Upgrade plan!</button></div>}
         </div>}
       </div>
       <div>Account: {creds ? `(${creds.accountType})` : '(google)' } {localStorage.getItem('email')}&nbsp;

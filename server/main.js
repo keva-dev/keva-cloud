@@ -124,6 +124,7 @@ async function removeKevaInstance(email) {
     userObj.containerId = null
     userObj.port = null
     userObj.pwd = null
+    userObj.plan = null
     return
   }
   throw new Error('Cannot find that email')
