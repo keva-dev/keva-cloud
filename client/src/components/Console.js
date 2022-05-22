@@ -130,15 +130,15 @@ function Console() {
       return
     }
     try {
-      const { data } = await service.post('/upgrade', { code })
-      toast(data.message)
-      loadHealth()
-    } catch (e) {
-      if (e.response) {
-        toast(e.response.data.message)
-      } else {
-        toast('An error occurred')
+      const resp = await service.post('/upgrade', { code })
+      if (resp.data && resp.data.message) {
+        toast(resp.data.message)
+        loadHealth()
+      } else if (resp.response.data.err) {
+        toast(resp.response.data.err)
       }
+    } catch (e) {
+      toast('An error occurred')
     }
   }
 
