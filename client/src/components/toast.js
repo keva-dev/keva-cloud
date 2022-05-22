@@ -1,5 +1,5 @@
 let wrapper = null
-const defaultOptions = { ms: 2000, disableClose: false, type: 'info' }
+const defaultOptions = { ms: 3000, disableClose: false, type: 'info' }
 
 export function toast(msg, options = defaultOptions) {
   if (wrapper === null) {

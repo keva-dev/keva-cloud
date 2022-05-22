@@ -123,6 +123,25 @@ function Console() {
     navigate('/')
   }
 
+  async function upgrade() {
+    // toast('Please contact cloud@keva.dev')
+    const code = window.prompt('Please enter the upgrade code')
+    if (!code) {
+      return
+    }
+    try {
+      const { data } = await service.post('/upgrade', { code })
+      toast(data.message)
+      loadHealth()
+    } catch (e) {
+      if (e.response) {
+        toast(e.response.data.message)
+      } else {
+        toast('An error occurred')
+      }
+    }
+  }
+
   return (
     <React.Fragment>
       <h1>Cloud Console</h1>
@@ -163,7 +182,7 @@ function Console() {
           <div><button className="secondary" onClick={openConnectModal}>Connect</button></div>
           <div><button className="secondary" onClick={restartServer}>Restart instance</button></div>
           <div><button disabled={loading} onClick={deleteServer}>Destroy instance</button></div>
-          <div><button className="secondary" onClick={() => toast('Please contact cloud@keva.dev')}>Upgrade plan!</button></div>
+          <div><button className="secondary" onClick={upgrade}>Upgrade plan!</button></div>
         </div>}
       </div>
       <div>Account: {creds ? `(${creds.accountType})` : '(google)' } {localStorage.getItem('email')}&nbsp;

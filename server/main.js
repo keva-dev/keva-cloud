@@ -133,6 +133,11 @@ async function restartKevaInstance(containerId) {
   await executeCommand(`docker restart ${containerId}`)
 }
 
+async function upgradeKevaInstance(containerId, memory=1024) {
+  const cmd = `docker update -m ${memory}m ${containerId}`
+  await executeCommand(cmd)
+}
+
 async function getKevaInstanceLog(containerId) {
   const rawLog = await executeCommand(`docker logs ${containerId}`)
   return rawLog.trim()
@@ -337,6 +342,26 @@ app.get('/admin', async function (req, res) {
     accountStats,
     hostStats,
   })
+})
+
+app.post('/upgrade', jwtMiddleware, async function (req, res) {
+  const who = req.email
+  const userObj = selectUser(who)
+  try {
+    const code = req.body.code
+    let memory = 256
+    if (code === process.env.UPGRADE_CODE) {
+      memory = 1024
+    } else if (code === process.env.UPGRADE_CODE_2) {
+      memory = 2048
+    } else {
+      return res.status(400).send({ err: 'Invalid code' })
+    }
+    await upgradeKevaInstance(userObj.containerId, memory)
+    return res.send({ message: 'Done'})
+  } catch(err) {
+    return res.status(400).send({ err: err.message })
+  }
 })
 
 const port = process.env.PORT || 2222
