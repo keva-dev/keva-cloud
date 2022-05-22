@@ -2,7 +2,7 @@ require("dotenv").config()
 const { exec } = require("child_process")
 const storage = require('node-persist')
 const axios = require("axios")
-const { createJWT, jwtMiddleware } = require("./jwt")
+const { createJWT, verifyJWT } = require("./jwt")
 
 const users = [
   // {
@@ -11,6 +11,32 @@ const users = [
   //   port: null, pwd: null,
   // },
 ]
+
+const jwtMiddleware = (req, res, next) => {
+  const getToken = req =>
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "Bearer"
+      ? req.headers.authorization.split(" ")[1]
+      : req.query && req.query.token
+        ? req.query.token
+        : null
+
+  try {
+    const token = getToken(req)
+    const payload = verifyJWT(token)
+
+    const { email } = payload
+    req.email = email
+
+    const userObj = selectUser(email)
+    userObj.lastAccessTime = Math.floor(+new Date() / 1000)
+
+    next()
+  } catch (err) {
+    res.status(401)
+    res.send({ message: "Unauthorized", error: err })
+  }
+}
 
 async function init() {
   await storage.init()
@@ -59,7 +85,7 @@ function getPort() {
 function selectUser(email) {
   const userObj = users.find(u => u.email === email)
   if (!userObj) {
-    users.push({ email })
+    users.push({ email, accountCreateTime: Math.floor(+new Date() / 1000) })
     return selectUser(email)
   }
   return userObj
@@ -143,6 +169,8 @@ app.post('/login', async function (req, res) {
     if (req.body.token) {
       const { email } = await verifyGoogleOAuth(req.body.token)
       const token = createJWT({ email })
+      const userObj = selectUser(email)
+      userObj.accountType = 'google'
       return res.send({ token, email })
     }
     if (req.body.code) {
@@ -162,6 +190,8 @@ app.post('/login', async function (req, res) {
         headers: { Authorization: `token ${access_token}` }
       })
       const token = createJWT({ email })
+      const userObj = selectUser(email)
+      userObj.accountType = 'github'
       return res.send({ token, email })
     }
     return res.send({ error: "Invalid request" })
@@ -203,6 +233,8 @@ app.post('/create', jwtMiddleware, async function (req, res) {
   const who = req.email
   try {
     const result = await createKevaInstance(who)
+    const userObj = selectUser(who)
+    userObj.instanceCreateTime = Math.floor(+new Date() / 1000)
     return res.send(result)
   } catch(err) {
     return res.status(400).send({ err: err.message })
@@ -260,7 +292,18 @@ app.get('/admin', async function (req, res) {
   if (id !== process.env.ADMIN) {
     return res.status(400).send({ message: 'You are not admin' })
   }
-  return res.send(users)
+  const accountStats = {
+    account: users.length,
+    accountType: {
+      admin: 1,
+      google: users.filter(u => u.accountType === 'google').length,
+      github: users.filter(u => u.accountType === 'github').length,
+    },
+    inactive: users.filter(u => !u.containerId).length,
+    containers: users.filter(u => u.containerId).length,
+    users,
+  }
+  return res.send(accountStats)
 })
 
 const port = process.env.PORT || 2222
