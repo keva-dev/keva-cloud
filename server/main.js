@@ -358,6 +358,9 @@ app.post('/upgrade', jwtMiddleware, async function (req, res) {
     } else if (code === process.env.NINJA_CODE_2) {
       memory = 2048
       planName = 'NinjaVan-Hackathon'
+    } else if (code === process.env.MEMOSPUB) {
+      memory = 1024
+      planName = 'memos.pub'
     } else {
       return res.status(400).send({ err: 'Invalid code' })
     }
