@@ -167,15 +167,15 @@ const verifyGoogleOAuth = async t => {
 
 app.post('/login', async function (req, res) {
   try {
+    const parseIp = (req) =>
+      req.headers['x-forwarded-for']?.split(',').shift()
+      || req.socket?.remoteAddress
     if (req.body.token) {
       const { email } = await verifyGoogleOAuth(req.body.token)
       const token = createJWT({ email })
       const userObj = selectUser(email)
       userObj.accountType = 'google'
       userObj.lastLoginTime = Math.floor(+new Date() / 1000)
-      const parseIp = (req) =>
-        req.headers['x-forwarded-for']?.split(',').shift()
-        || req.socket?.remoteAddress
       userObj.lastLoginIP = parseIp(req)
       return res.send({ token, email })
     }
@@ -199,6 +199,7 @@ app.post('/login', async function (req, res) {
       const userObj = selectUser(email)
       userObj.accountType = 'github'
       userObj.lastLoginTime = Math.floor(+new Date() / 1000)
+      userObj.lastLoginIP = parseIp(req)
       return res.send({ token, email })
     }
     return res.send({ error: "Invalid request" })

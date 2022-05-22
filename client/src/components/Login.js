@@ -76,7 +76,7 @@ function Login() {
       </div>
       <p className="notice">Keva Cloud is a powerful, fully-managed <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Redis alternative</a></p>
       <p className="notice"><strong>Free 1 Keva instance with 256MB memory per account</strong></p>
-      {!hasTryFlag && <p className="notice">Upgrade to pro instance (1GB+ memory) starting 5$/month</p>}
+      {!hasTryFlag && <p className="notice">Upgrade to pro instance (1GB+ memory) starting S$5/month</p>}
     </React.Fragment>
   )
 }
