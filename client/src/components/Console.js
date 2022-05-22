@@ -309,7 +309,7 @@ func main() {
                 name: 'JavaScript (fetch)',
                 content: <div className="code">
                   <code>
-                    {`fetch("https://cloud-rest-api.keva.dev/set/foo/bar/get/foo", {
+                    {`fetch("https://cloud-rest-api.keva.dev/set/foo/bar", {
   headers: {
     Authorization: "Bearer ${creds.token}"
   }
