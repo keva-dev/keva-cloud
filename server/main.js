@@ -131,18 +131,37 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+const verifyGoogleOAuth = async t => {
+  const googleURL = "https://www.googleapis.com/userinfo/v2/me"
+  const { data } = await axios.get(googleURL, {
+    headers: { Authorization: `Bearer ${t}`, Accept: "application/json" }
+  })
+  return data
+}
+
 app.post('/login', async function (req, res) {
-  const verifyGoogleOAuth = async t => {
-    const googleURL = "https://www.googleapis.com/userinfo/v2/me"
-    const { data } = await axios.get(googleURL, {
-      headers: { Authorization: `Bearer ${t}`, Accept: "application/json" }
-    })
-    return data
-  }
   try {
-    const { email } = await verifyGoogleOAuth(req.body.token)
-    const token = createJWT({ email })
-    return res.send({ token, email })
+    if (req.body.token) {
+      const { email } = await verifyGoogleOAuth(req.body.token)
+      const token = createJWT({ email })
+      return res.send({ token, email })
+    }
+    if (req.body.code) {
+      const { data } = await axios.post('https://github.com/login/oauth/access_token', null, {
+        params: {
+          client_id: process.env.GITHUB_CLIENT_ID,
+          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          code: req.body.code,
+        }
+      })
+      const { access_token } = data
+      const { data: { email } } = await axios.get('https://api.github.com/user', {
+        headers: { Authorization: `token ${access_token}` }
+      })
+      const token = createJWT({ email })
+      return res.send({ token, email })
+    }
+    return res.send({ error: "Invalid request" })
   } catch(err) {
     return res.status(400).send({ err: err.message })
   }
