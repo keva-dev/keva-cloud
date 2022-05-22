@@ -130,7 +130,7 @@ function Console() {
       return
     }
     try {
-      const resp = await service.post('/upgrade', { code })
+      const resp = await service.post('/upgrade', { code: code.toUpperCase() })
       if (resp.data && resp.data.message) {
         toast(resp.data.message)
         loadHealth()
