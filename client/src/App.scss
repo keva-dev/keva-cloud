@@ -210,6 +210,7 @@ body {
 
     .popup {
       margin: 100px auto;
+      max-height: calc(100vh - 250px);
       padding: 20px;
       border: 1px solid var(--primary-text);
       background: var(--primary-background);
