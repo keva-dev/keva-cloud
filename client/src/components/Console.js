@@ -153,7 +153,8 @@ function Console() {
         </button>
         <p>Version <select disabled={createLoading}>
           <option>Keva@latest</option>
-          <option>Keva@1.0.0-rc1</option>
+          <option>Keva@1.0.0-rc2</option>
+          <option disabled>Keva@1.0.0-rc1</option>
           <option disabled>Keva@1.0.0-rc0</option>
         </select></p>
         <p>Region <select disabled={createLoading}>
@@ -310,7 +311,7 @@ func main() {
               },
             ]
           }/>
-          <div>Also see <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
+          <div>Also see <a href="https://keva.dev/docs/basics/compatibility" target="_blank" rel="noreferrer">Keva's Redis Compatibility</a></div>
           <h2>REST API</h2>
           <div>REST API enables you to access your Keva Cloud instance using REST</div>
           <Tabs

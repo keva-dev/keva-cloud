@@ -1,14 +1,14 @@
 :root {
-  --primary-background: #0E1117;
+  --primary-background: #1B1B1D;
   --secondary-background: #fff;
   --primary-text: #fff;
-  --secondary-text: #0E1117;
+  --secondary-text: #1B1B1D;
 }
 
 [data-theme="light"] {
   --primary-background: #fff;
-  --secondary-background: #0E1117;
-  --primary-text: #0E1117;
+  --secondary-background: #1B1B1D;
+  --primary-text: #1B1B1D;
   --secondary-text: #fff;
 }
 
@@ -162,7 +162,8 @@ body {
 
     button {
       width: 100%;
-      font-size: 16px;
+      //font-size: 11px;
+      font-family: 'IBM Plex Sans', sans-serif;
     }
   }
 
@@ -170,8 +171,8 @@ body {
     cursor: pointer;
     font-size: .8rem;
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     min-width: unset;
   }
 

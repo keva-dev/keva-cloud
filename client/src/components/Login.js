@@ -59,7 +59,7 @@ function Login() {
           clientId="834798810236-mo101qd4s238ajssl05n4j4t9i2r4ch5.apps.googleusercontent.com"
           render={renderProps => (
             <button type="button" className={loading === 1 ? 'loading' : ''}
-                    onClick={renderProps.onClick} style={{ fontSize: '1.25rem', padding: '15px 0' }}>
+                    onClick={renderProps.onClick} style={{ fontSize: '1rem', padding: '15px 0' }}>
               <img src={GoogleSvg} alt="Google"/>
               Login with Google
             </button>
@@ -71,10 +71,10 @@ function Login() {
           clientId="82fc0486461a6a6bc115"
           onSuccess={responseGithub} onFailure={responseGithub}
           className={loading === 2 ? 'loading' : ''}
-          style={{ border: '1px solid black', fontSize: '1.25rem', padding: '15px 0' }}
+          style={{ border: '1px solid black', fontSize: '1rem', padding: '15px 0' }}
         />
       </div>
-      <p className="notice">Keva Cloud is a powerful, fully-managed <a href="https://keva.dev/guide/overview/commands.html" target="_blank" rel="noreferrer">Redis alternative</a></p>
+      <p className="notice">Keva Cloud is a powerful, fully-managed <a href="https://keva.dev/docs/basics/compatibility" target="_blank" rel="noreferrer">Redis alternative</a></p>
       <p className="notice"><strong>Free 1 Keva instance with 256MB memory per account</strong></p>
       {!hasTryFlag && <p className="notice">Upgrade to pro instance (1GB+ memory) starting S$5/month</p>}
     </React.Fragment>

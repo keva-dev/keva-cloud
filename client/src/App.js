@@ -10,6 +10,9 @@ import Login from './components/Login'
 import NotFound from './components/NotFound'
 import Console from './components/Console'
 
+import DarkSvg from './Dark.svg'
+import SunSvg from './Sun.svg'
+
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme)
   localStorage.setItem('theme', theme)
@@ -73,9 +76,7 @@ function App() {
           <Route path="/console" element={<Console/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
-        <button className="toggle-theme secondary" onClick={toggleThemeHandler}>
-          Switch to {themeState === 'dark' ? 'light' : 'dark'} mode
-        </button>
+        <img src={themeState === 'dark' ? SunSvg : DarkSvg} className="toggle-theme" alt="Toggle theme" onClick={toggleThemeHandler} />
       </div>
     </BrowserRouter>
   )
