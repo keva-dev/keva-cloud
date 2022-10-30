@@ -189,7 +189,7 @@ function Console() {
             <button className="secondary">Support</button></a></div>}
         </div>}
       </div>
-      <div>Account: {creds ? `(${creds.accountType})` : '(google)' } {localStorage.getItem('email')}&nbsp;
+      <div>{localStorage.getItem('email')}&nbsp;
         <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={logout}>(logout?)</span></div>
       {creds && creds.lastLoginTime &&
       <div>Last login: {dayjs(dayjs.unix(creds.lastLoginTime)).fromNow()} from {creds.lastLoginIP}</div>}
